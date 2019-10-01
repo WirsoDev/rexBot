@@ -66,6 +66,7 @@ async def wiki(ctx, *, question):
 @client.command()
 async def rev(ctx, *, content):
     if ctx.author.name in users_aquinos:
+        print(f'{ctx.author.name} at {t} -- {content}')
         content = str(content).strip().upper()
         if content in dc_tc:
             if dc_tc[content][0] == ' ':
