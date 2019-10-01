@@ -66,7 +66,7 @@ async def wiki(ctx, *, question):
 @client.command()
 async def rev(ctx, *, content):
     if ctx.author.name in users_aquinos:
-        print(f'{ctx.author.name} at {t} -- {content}')
+        print(f'On !rev : {ctx.author.name} at {t} -- {content}')
         content = str(content).strip().upper()
         if content in dc_tc:
             if dc_tc[content][0] == ' ':
@@ -82,6 +82,7 @@ async def rev(ctx, *, content):
 @client.command()
 async def cod(ctx, *, content):
     if ctx.author.name in users_aquinos:
+        print(f'On !cod : {ctx.author.name} at {t} -- {content}')
         content = content.upper().strip()
         frases_modelos_ramd = random.choice(frases_modelos)
         if content in dc_models:
@@ -96,6 +97,7 @@ async def cod(ctx, *, content):
 @client.command()
 async def mod(ctx, *, content):
     if ctx.author.name in users_aquinos:
+        print(f'On !mod : {ctx.author.name} at {t} -- {content}')
         content = content.upper().strip()
         if content in dc_cod_models:
             await ctx.send('Esse modelo é o ' + dc_cod_models[content])
