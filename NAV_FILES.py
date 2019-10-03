@@ -10,7 +10,7 @@ open_models_file = xlrd.open_workbook(models_file)
 sheet_models = open_models_file.sheet_by_index(0)
 
 act_tc = sheet_tc.cell_value(1, 0)[16:]
-act_models = sheet_models.cell_value(1, 0)[21:]
+act_models = sheet_models.cell_value(1, 0)[21:]x
 
 print(f'Base de dados TC atualizada a {act_tc}\n'
       f'Base de dados Models atualizada a {act_models}')
@@ -18,6 +18,7 @@ print(f'Base de dados TC atualizada a {act_tc}\n'
 dc_tc = {}
 dc_models = {}
 dc_cod_models = {}
+tc_to_cod = {}
 
 #tecidos
 for n in range(sheet_tc.nrows):
@@ -34,4 +35,11 @@ for m in range(sheet_models.nrows):
     name_model = sheet_models.cell_value(m, 1)
     dc_models[cod_model] = name_model
     dc_cod_models[name_model] = cod_model
+
+#codigo nav - cod tec
+for itens in range(sheet_tc.nrows):
+    cod1 = sheet_tc.cell_value(itens, 0)
+    cod2 = sheet_tc.cell_value(itens, 1)
+    tc_to_cod[cod1] = cod2
+
 
