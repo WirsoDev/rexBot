@@ -147,6 +147,32 @@ async def week(ctx):
     await ctx.send(f'Estás na semana {weeknum()}')
 
 
+@client.command()
+async def gama(ctx, *,content):
+    print(f'On !gama : {ctx.author.name} at {t} -- {content}')
+    key = content.strip()
+    file = xlrd.open_workbook(r'\\STORAGE\Creative\DC_DOCS\LISTA DE REVESTIMENTOS_NAV.xlsx')
+    work_sheet = file.sheet_by_index(0)
+    rows = work_sheet.nrows
+    key01 = key.lower().strip()
+    key02 = key.upper().strip()
+    key03 = key.capitalize().strip()
+    if len(key) <= 0:
+        pass
+    else:
+        for itens in range(rows):
+            name = str(work_sheet.cell_value(itens, 1))
+            cod = work_sheet.cell_value(itens, 2)
+            if 'EUROFACTOR' not in name:
+                if key01 in name:
+                    await ctx.send(f'{name} -- {cod}')
+                elif key02 in name:
+                    await ctx.send(f'{name} -- {cod}')
+                elif key03 in name:
+                    await ctx.send(f'{name} -- {cod}')
+        await ctx.send(f'E é isso {ctx.author.name}!')
+
+
 @client.event
 async def on_message(message):
     author = message.author.name
