@@ -10,7 +10,7 @@ open_models_file = xlrd.open_workbook(models_file)
 sheet_models = open_models_file.sheet_by_index(0)
 
 act_tc = sheet_tc.cell_value(1, 0)[16:]
-act_models = sheet_models.cell_value(1, 0)[21:]x
+act_models = sheet_models.cell_value(1, 0)[21:]
 
 print(f'Base de dados TC atualizada a {act_tc}\n'
       f'Base de dados Models atualizada a {act_models}')
@@ -40,6 +40,5 @@ for m in range(sheet_models.nrows):
 for itens in range(sheet_tc.nrows):
     cod1 = sheet_tc.cell_value(itens, 0)
     cod2 = sheet_tc.cell_value(itens, 1)
-    tc_to_cod[cod1] = cod2
-
+    tc_to_cod[cod2] = cod1
 

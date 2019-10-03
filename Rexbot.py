@@ -3,7 +3,7 @@ import discord
 import random
 import wikipedia
 import time
-from NAV_FILES import dc_tc, dc_models, dc_cod_models
+from NAV_FILES import dc_tc, dc_models, dc_cod_models, tc_to_cod
 from BIBREVS import tecidos
 from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
