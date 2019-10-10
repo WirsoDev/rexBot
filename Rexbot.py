@@ -29,6 +29,9 @@ async def on_ready():
     print('='*80)
     print(f'O rex esta online!! At {t}')
     print('='*80)
+    channel = client.get_channel(465868403014500363)
+    await channel.send('I´m Online bitches\n https://tenor.com/view/trex-arms-gif-7622211')
+
 
 
 @client.command()
@@ -157,6 +160,7 @@ async def gama(ctx, *,content):
     key01 = key.lower().strip()
     key02 = key.upper().strip()
     key03 = key.capitalize().strip()
+    list = []
     if len(key) <= 0:
         pass
     else:
@@ -165,11 +169,13 @@ async def gama(ctx, *,content):
             cod = work_sheet.cell_value(itens, 2)
             if 'EUROFACTOR' not in name:
                 if key01 in name:
-                    await ctx.send(f'{name} -- {cod}')
+                    list.append(f'{name} -- {cod}')
                 elif key02 in name:
-                    await ctx.send(f'{name} -- {cod}')
+                    list.append(f'{name} -- {cod}')
                 elif key03 in name:
-                    await ctx.send(f'{name} -- {cod}')
+                    list.append(f'{name} -- {cod}')
+        for lines in list:
+            await ctx.send(lines)
         await ctx.send(f'E é isso {ctx.author.name}!')
 
 
