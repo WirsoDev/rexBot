@@ -20,6 +20,10 @@ frases_modelos = ['! Bela merda de modelo!!', '! Este modelo é bem bonito!!',
                   '! Qualidade americana este modelo!!', '! Jasus...nem digo nada!!',
                   '! Mas isto vai dar em alguma coisa??', '! Isto é um sofa??', '! :D :D :D :D JASUS!!!']
 
+gifs_rex = ['https://tenor.com/view/dinosaur-trex-summersault-boom-running-gif-9694162',
+            'https://tenor.com/view/trex-horse-soccer-what-the-heck-wtf-gif-5080299',
+            'https://tenor.com/view/rex-snow-snow-shovel-gif-15013849']
+
 
 users_aquinos = ('Wirso','Mrs. Jenni', 'Sandro')
 
@@ -30,7 +34,7 @@ async def on_ready():
     print(f'O rex esta online!! At {t}')
     print('='*80)
     channel = client.get_channel(465868403014500363)
-    await channel.send('I´m Online bitches\n https://tenor.com/view/trex-arms-gif-7622211')
+    await channel.send(f'I´m Online bitches\n {random.choice(gifs_rex)}')
 
 
 
