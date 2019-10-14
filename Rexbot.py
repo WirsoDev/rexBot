@@ -22,7 +22,7 @@ frases_modelos = ['! Bela merda de modelo!!', '! Este modelo é bem bonito!!',
 
 gifs_rex = ['https://tenor.com/view/dinosaur-trex-summersault-boom-running-gif-9694162',
             'https://tenor.com/view/trex-horse-soccer-what-the-heck-wtf-gif-5080299',
-            'https://tenor.com/view/rex-snow-snow-shovel-gif-15013849']
+            'https://tenor.com/view/rex-snow-snow-shovel-gif-15013849','https://tenor.com/view/trex-arms-gif-7622211']
 
 
 users_aquinos = ('Wirso','Mrs. Jenni', 'Sandro')
@@ -165,6 +165,7 @@ async def gama(ctx, *,content):
     key02 = key.upper().strip()
     key03 = key.capitalize().strip()
     list = []
+    await ctx.send(':BETA TESTING:')
     if len(key) <= 0:
         pass
     else:
@@ -180,7 +181,7 @@ async def gama(ctx, *,content):
                     list.append(f'{name} -- {cod}')
         for lines in list:
             await ctx.send(lines)
-        await ctx.send(f'E é isso {ctx.author.name}!')
+        await ctx.send(f'E é isso {ctx.author.name}! ')
 
 
 @client.event
