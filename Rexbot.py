@@ -1,5 +1,4 @@
 from discord.ext import commands
-import discord
 import random
 import wikipedia
 import time
@@ -9,16 +8,17 @@ from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
 import os
 from my_funcs import weeknum
+from . import tokan
 
-
-tokan = 'NTg1NzYwMjE5Nzg3NjkwMDIz.XPePxQ.uqTJYyJDX5jVZcEv051krZ3VUvM'
 t = time.ctime()
 
 client = commands.Bot(command_prefix='!')
 
+
 frases_modelos = ['! Bela merda de modelo!!', '! Este modelo é bem bonito!!',
                   '! Qualidade americana este modelo!!', '! Jasus...nem digo nada!!',
                   '! Mas isto vai dar em alguma coisa??', '! Isto é um sofa??', '! :D :D :D :D JASUS!!!']
+
 
 gifs_rex = ['https://tenor.com/view/dinosaur-trex-summersault-boom-running-gif-9694162',
             'https://tenor.com/view/trex-horse-soccer-what-the-heck-wtf-gif-5080299',
@@ -195,4 +195,5 @@ async def on_message(message):
     await client.process_commands(message)
 
 
-client.run(tokan)
+if __name__ == '__main__':
+    client.run(tokan)
