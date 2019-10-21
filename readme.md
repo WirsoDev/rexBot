@@ -1,0 +1,3 @@
+# RexBot
+
+Discord bot
