@@ -8,7 +8,7 @@ from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
 import os
 from my_funcs import weeknum
-from . import tokan
+from tokan import tokan
 
 t = time.ctime()
 
