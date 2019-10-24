@@ -9,6 +9,7 @@ import xlrd
 import os
 from my_funcs import weeknum
 from tokan import tokan
+import asyncio
 
 t = time.ctime()
 
@@ -33,8 +34,8 @@ async def on_ready():
     print('='*80)
     print(f'O rex esta online!! At {t}')
     print('='*80)
-    channel = client.get_channel(465868403014500363)
-    await channel.send(f'I´m Online bitches\n {random.choice(gifs_rex)}')
+    # channel = client.get_channel(465868403014500363)
+    # await channel.send(f'I´m Online bitches\n {random.choice(gifs_rex)}')
 
 
 
@@ -145,8 +146,8 @@ async def todos(ctx):
 
 
 @client.command()
-async def open():
-    os.startfile('\\\\STORAGE\\Creative\\DESENVOLVIMENTO\\REGISTO GERAL DE DESENVOLVIMENTOS.xlsx')
+async def open(ctx):
+    os.startfile(r'\\STORAGE\Creative\DESENVOLVIMENTO\REGISTO GERAL DE DESENVOLVIMENTOS.xlsx', operation='open')
 
 
 @client.command()
