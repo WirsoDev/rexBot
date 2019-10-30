@@ -2,16 +2,13 @@ from discord.ext import commands
 import random
 import wikipedia
 import time
-from NAV_FILES import dc_tc, dc_models, dc_cod_models, tc_to_cod
+from NAV_FILES import dc_tc, dc_models, dc_cod_models
 from BIBREVS import tecidos
 from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
 import os
 from my_funcs import weeknum
 from tokan import tokan
-import asyncio
-
-t = time.ctime()
 
 client = commands.Bot(command_prefix='!')
 
@@ -32,11 +29,8 @@ users_aquinos = ('Wirso','Mrs. Jenni', 'Sandro')
 @client.event
 async def on_ready():
     print('='*80)
-    print(f'O rex esta online!! At {t}')
+    print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
-    # channel = client.get_channel(465868403014500363)
-    # await channel.send(f'I´m Online bitches\n {random.choice(gifs_rex)}')
-
 
 
 @client.command()
@@ -59,7 +53,7 @@ async def wiki(ctx, *, question):
             await ctx.send(f'{procura}? Espera uma beca, deixa procurar o significado disso em Português!\n{" "} ')
         wikipedia.set_lang(lang)
         sug = wikipedia.search(procura, results=3)
-        print(f'Procura feita por {ctx.author.name} at {t}')
+        print(f'Procura feita por {ctx.author.name} at {time.ctime()}')
         print(sug)
         if (len(sug)) <= -1:
             await ctx.send('Sorry!')
@@ -74,7 +68,7 @@ async def wiki(ctx, *, question):
 @client.command()
 async def rev(ctx, *, content):
     if ctx.author.name in users_aquinos:
-        print(f'On !rev : {ctx.author.name} at {t} -- {content}')
+        print(f'On !rev : {ctx.author.name} at {time.ctime()} -- {content}')
         content = str(content).strip().upper()
         if content in dc_tc:
             if dc_tc[content][0] == ' ':
@@ -90,7 +84,7 @@ async def rev(ctx, *, content):
 @client.command()
 async def cod(ctx, *, content):
     if ctx.author.name in users_aquinos:
-        print(f'On !cod : {ctx.author.name} at {t} -- {content}')
+        print(f'On !cod : {ctx.author.name} at {time.ctime()} -- {content}')
         content = content.upper().strip()
         frases_modelos_ramd = random.choice(frases_modelos)
         if content in dc_models:
@@ -105,7 +99,7 @@ async def cod(ctx, *, content):
 @client.command()
 async def mod(ctx, *, content):
     if ctx.author.name in users_aquinos:
-        print(f'On !mod : {ctx.author.name} at {t} -- {content}')
+        print(f'On !mod : {ctx.author.name} at {time.ctime()} -- {content}')
         content = content.upper().strip()
         if content in dc_cod_models:
             await ctx.send('Esse modelo é o ' + dc_cod_models[content])
@@ -157,7 +151,7 @@ async def week(ctx):
 
 @client.command()
 async def gama(ctx, *,content):
-    print(f'On !gama : {ctx.author.name} at {t} -- {content}')
+    print(f'On !gama : {ctx.author.name} at {time.ctime()} -- {content}')
     key = content.strip()
     file = xlrd.open_workbook(r'\\STORAGE\Creative\DC_DOCS\LISTA DE REVESTIMENTOS_NAV.xlsx')
     work_sheet = file.sheet_by_index(0)
