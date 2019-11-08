@@ -1,5 +1,7 @@
 .gitignore
 .idea/
+.vscode
+
 __pycache__/
 EXCEL LIBS/
 venv/
@@ -8,6 +10,5 @@ BIBREVS.py
 MODELOS_AQUINOS.py
 NAV_FILES.py
 tokan.py
-
 
 
