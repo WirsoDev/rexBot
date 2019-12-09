@@ -1,6 +1,6 @@
 import xlrd
 
-tc_file = ('G:\\python\\REX\\NAV_DATA\\TC.xlsx')#Path of xlr file
+tc_file = ('G:\\dev\\rexbot_01\\EXCEL LIBS\\TC_02.xlsx')# Path of xlr file
 models_file = ('G:\\python\\REX\\NAV_DATA\\MODELOS.xlsx')
 
 
@@ -22,10 +22,10 @@ tc_to_cod = {}
 
 #tecidos
 for n in range(sheet_tc.nrows):
-    cod = sheet_tc.cell_value(n, 1)
-    price = sheet_tc.cell_value(n, 3)
-    m2 = sheet_tc.cell_value(n, 8)
-    desc = sheet_tc.cell_value(n, 2)
+    cod = sheet_tc.cell_value(n, 2)
+    price = sheet_tc.cell_value(n, 11)
+    m2 = sheet_tc.cell_value(n, 16)
+    desc = sheet_tc.cell_value(n, 3)
     dc_tc[cod] = f'{desc}  ---  {price}€/m  ---  {m2}m/lin em stock  |  Atualizado a {act_tc}'
 
 
