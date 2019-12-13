@@ -7,7 +7,7 @@ from BIBREVS import tecidos
 from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
 import os
-from my_funcs import weeknum
+from my_funcs import weeknum, aqpassgen
 from tokan import tokan
 
 client = commands.Bot(command_prefix='!')
@@ -147,6 +147,21 @@ async def open(ctx):
 @client.command()
 async def week(ctx):
     await ctx.send(f'Estás na semana {weeknum()}')
+
+
+@client.command()
+async def genpass(ctx, *, name):
+
+    '''Gera uma pass aleatória de 10 caracteres dentro das normas dos Aquinos
+Ignora caracteres no nome do utilizador.
+
+Exemplo: !genpass Wilson - Returns: qC/T40dQ#5
+
+Boa sorte a decorar isto! :D'''
+
+
+    print(f'pass {aqpassgen(name)} gerada para {ctx.author.name}')
+    await ctx.author.send( f'Pass gerada: {aqpassgen(name)}')
 
 
 @client.command()
