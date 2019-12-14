@@ -1,3 +1,12 @@
+'''
+Data base for:
+    - models names
+    - revs codes
+    - users aquinos
+'''
+
+aquinosusers  = ['Wirso','Mrs. Jenni', 'Sandro']
+
 tecidos ={"C067":"Rosa",
 "C1013":"IMI CINZA",
 "C1121":"HOPPER KAKI (Beje)",
@@ -250,18 +259,3 @@ tecidos ={"C067":"Rosa",
 "G1230":"RONDA 39 - SINDE 3",
 "G1210":"RONDA 80 - SINDE 4"
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
