@@ -1,12 +1,12 @@
 from discord.ext import commands
+import discord
 import random
 import wikipedia
 import time
 # from NAV_FILES import dc_tc, dc_models, dc_cod_models
-from MODELOS_AQUINOS import modelos_aquinos_inv
 import xlrd
 from tokan import tokan
-from db.database import aquinosusers, tecidos
+from db.database import aquinosusers, tecidos, modelos_aquinos, modelos_aquinos_inv
 from functions import frasesmodelos, rexgifs, weeknum, aqpassgen
 
 
@@ -53,7 +53,6 @@ async def cod(ctx, *, content):
         await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
 '''
 
-'''
 @client.command()
 async def mod(ctx, *, content):
     if ctx.author.name in aquinosusers:
@@ -69,7 +68,6 @@ async def mod(ctx, *, content):
                                    f'Esse codigo ainda não deve estar criado!')
     else:
         await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
-'''
 
 '''
 @client.command()
@@ -101,6 +99,7 @@ async def todos(ctx):
 
 @client.command()
 async def week(ctx):
+    '''Retorna o numero da semana actual'''
     await ctx.send(f'Estás na semana {weeknum()}')
 
 
@@ -148,6 +147,13 @@ async def gama(ctx, *,content):
             await ctx.send(lines)
         await ctx.send(f'E é isso {ctx.author.name}! ')
 '''
+
+@client.command()
+async def test(ctx, *args):
+    retStr = str("""```css\nThis is some colored Text```""")
+    embed = discord.Embed(title="Random test")
+    embed.add_field(name="Name field can't be colored as it seems",value=retStr)
+    await ctx.send(embed=embed)
 
 @client.event
 async def on_message(message):
