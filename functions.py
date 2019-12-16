@@ -1,6 +1,7 @@
 import random
 import datetime
 import string
+from db.database import aquinosusers
 
 # random quoutes lists
 
@@ -49,9 +50,24 @@ def find_weeknum(year, mon, day):
 # main app's
 
 
-def aqpassgen(name):
-    # string list all caracters - no cars on name
+def aqpassgen(ctx, givenname=''):
 
+    def findname():
+        # extract name by user
+        if givenname == '':
+            nickname = ctx.author.name
+            if nickname == 'Wirso':
+                name = 'wilson'
+            elif nickname == 'Mrs. Jenni':
+                name = 'Jennifer'
+            elif nickname == 'dani_a_ventura':
+                name = 'Daniela'
+        else:
+            name = ctx.author.name
+        return name
+
+    # string list all caracters - no cars on name
+    name = findname()
     listchar01 = []
     for itens in string.ascii_uppercase + string.ascii_lowercase:
         if itens not in name.upper() and name.lower():
@@ -64,13 +80,10 @@ def aqpassgen(name):
     r_listchar01 = random.sample(listchar01, k=6)
     r_listdig = random.sample(listdig, k=2)
     r_listnalpha = random.sample(listnalpha, k=2)
-
     passgen = r_listchar01 + r_listdig + r_listnalpha
     random.shuffle(passgen)
-
     return ''.join(passgen)
     
-
 
 
 if __name__ == "__main__":

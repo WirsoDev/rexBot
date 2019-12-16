@@ -109,18 +109,26 @@ async def week(ctx):
 
 
 @client.command()
-async def genpass(ctx, *, name):
+async def genpass(ctx, *, givenname=''):
 
     '''Gera uma pass aleatória de 10 caracteres dentro das normas dos Aquinos
-Ignora caracteres no nome do utilizador.
+Ignora caracteres no nome do utilizador caso o givenname não seja atribuido.
 
-Exemplo: !genpass Wilson - Returns: qC/T40dQ#5
+A pass é enviada por mensagem privada.
+
+Exemplo: !genpass - Returns: qC/T40dQ#5 
+Caracteres ignorados: w, i, l, s, o, n
+
+Exemplo 2: !genpass wilsonmarques - Returns: qC/T40dQ#5
+Caracteres ignorados: w, i, l, s, o, n, m, a, r, q, e
 
 Boa sorte a decorar isto! :D'''
 
-
-    print(f'pass {aqpassgen(name)} gerada para {ctx.author.name}')
-    await ctx.author.send( f'Pass gerada: {aqpassgen(name)}')
+    password = aqpassgen(ctx)
+    print(f'pass {password} gerada para {ctx.author.name}')
+    await ctx.author.send(f'Pass gerada: {password}')
+    time.sleep(0.3)
+    await ctx.send(f'A tua pass foi gerada e enviada por MP')
 
 '''
 @client.command()
