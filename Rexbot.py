@@ -20,6 +20,11 @@ async def on_ready():
     print('='*80)
 
 
+@client.command()
+async def version(ctx):
+    await ctx.send('You are running rex version 1.2')
+
+
 '''
 @client.command()
 async def rev(ctx, *, content):

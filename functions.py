@@ -46,6 +46,9 @@ def find_weeknum(year, mon, day):
     return date
 
 
+# main app's
+
+
 def aqpassgen(name):
     # string list all caracters - no cars on name
 
