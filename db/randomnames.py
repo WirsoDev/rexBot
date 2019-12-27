@@ -1,30 +1,33 @@
-from bs4 import BeautifulSoup as bs
 import requests
-import lxml
+import json
+import random
 
-class Randomnames:
+class Getnames:
+    '''Request a api of random names from drycodes'''
 
-    def __init__(self, url):
-        self.url = url
+    def __init__(self, option='boy_names'):
+        self.option = option
+        print(f'Run command NAMES\nType = {option}\n')
+        print('*' * 10)
 
-
-    def handshake(self):
-        connection = requests.get(self.url)
-        print(connection)
-        return connection
 
 
     def getnames(self):
-        conn = requests.get(self.url).text
-        page = bs(conn, 'lxml')
-        names = page.find('h1')
-        print(names)
-        
-        
+
+        makeurl = (f'http://names.drycodes.com/10?nameOptions={self.option}')
+        connection = requests.get(makeurl)
+        print(f'Status code: {connection}')
+        api_return = connection.json()
+
+        listofnames = []
+
+        for names in api_return:
+            split = names.split('_')
+            listofnames.append(split[0])
+
+        return listofnames
 
 
 if __name__ == "__main__":
-    url = 'http://listofrandomnames.com/index.cfm?generated'
-
-    conn = Randomnames(url)
-    conn.getnames()
+    Getnames(type).getnames()
+    

@@ -83,8 +83,9 @@ def aqpassgen(ctx, givenname=''):
     passgen = r_listchar01 + r_listdig + r_listnalpha
     random.shuffle(passgen)
     return ''.join(passgen)
-    
 
+
+    
 
 if __name__ == "__main__":
     pass

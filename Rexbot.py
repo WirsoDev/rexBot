@@ -7,6 +7,7 @@ import time
 import xlrd
 from tokan import tokan
 from db.database import aquinosusers, tecidos, modelos_aquinos, modelos_aquinos_inv
+from db.randomnames import Getnames
 from functions import frasesmodelos, rexgifs, weeknum, aqpassgen
 
 
@@ -167,6 +168,14 @@ async def test(ctx, *args):
     embed = discord.Embed(title="Random test")
     embed.add_field(name="Name field can't be colored as it seems",value=retStr)
     await ctx.send(embed=embed)
+
+
+@client.command()
+async def names(ctx, *, types='boy_names'):
+    listnames = Getnames(types)
+    await ctx.send('Lista de nomes:\n')
+    for names in listnames.getnames()[:4]:
+        await ctx.send(names)
 
 @client.event
 async def on_message(message):
