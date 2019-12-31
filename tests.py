@@ -1,26 +1,8 @@
-import requests
-import json
+# test color and embed for dscord bot
 
-class Getnames:
-
-    def __init__(self, url):
-        self.url = url
-
-    
-    def handshake(self):
-        response = requests.get(self.url)
-        return response
-
-    def getnames(self):
-        connection = requests.get(url)
-        return connection.json()
-
-
-if __name__ == "__main__":
-    url = 'http://names.drycodes.com/10?nameOptions=boy_names'
-    conn = Getnames(url)
-
-    print(
-        conn.handshake(), 
-        conn.getnames() 
-    )
+@client.command()
+async def test(ctx, *args):
+    retStr = str("""```css\nThis is some colored Text```""")
+    embed = discord.Embed(title="Random test")
+    embed.add_field(name="Name field can't be colored as it seems",value=retStr)
+    await ctx.send(embed=embed)
