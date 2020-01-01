@@ -170,6 +170,16 @@ async def names(ctx, *, types='boy_names'):
     for names in listnames.getnames()[:4]:
         await ctx.send(names)
 
+
+@client.command()
+async def test(ctx, *args):
+    retStr = str("""```css\nThis is some colored Text```""")
+    embed = discord.Embed(title="Random test")
+    embed.add_field(name="Name field can't be colored as it seems",value=retStr)
+    await ctx.send(embed=embed)
+
+    
+
 @client.event
 async def on_message(message):
     author = message.author.name
