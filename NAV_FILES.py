@@ -1,7 +1,8 @@
 import xlrd
 
-tc_file = ('G:\\dev\\rexbot_01\\EXCEL LIBS\\TC_02.xlsx')# Path of xlr file
-models_file = ('G:\\python\\REX\\NAV_DATA\\MODELOS.xlsx')
+
+tc_file = (r'EXCEL LIBS/TC_02.xlsx')
+models_file = (r'EXCEL LIBS/MODELOS.xlsx')
 
 
 open_tc_file = xlrd.open_workbook(tc_file)
@@ -26,7 +27,7 @@ for n in range(sheet_tc.nrows):
     price = sheet_tc.cell_value(n, 11)
     m2 = sheet_tc.cell_value(n, 16)
     desc = sheet_tc.cell_value(n, 3)
-    dc_tc[cod] = f'{desc}  ---  {price}€/m  ---  {m2}m/lin em stock  |  Atualizado a {act_tc}'
+    dc_tc[cod] = f'{desc}{price}€/m  ---  {m2}m/lin em stock\nAtualizado a {act_tc}'
 
 
 #codigo/modelo and modelo/codigo

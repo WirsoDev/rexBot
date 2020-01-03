@@ -7,7 +7,7 @@ Data base for:
 
 aquinosusers  = ['Wirso','Mrs. Jenni', 'Sandro']
 
-tecidos ={"C067":"Rosa",
+dbtecidos ={"C067":"Rosa",
 "C1013":"IMI CINZA",
 "C1121":"HOPPER KAKI (Beje)",
 "C1131":"Royal Dark Brown",

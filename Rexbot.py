@@ -3,13 +3,14 @@ import discord
 import random
 import wikipedia
 import time
-# from NAV_FILES import dc_tc, dc_models, dc_cod_models
+from NAV_FILES import dc_tc, dc_models, dc_cod_models
 import xlrd
 from tokan import tokan
-from db.database import aquinosusers, tecidos, modelos_aquinos, modelos_aquinos_inv
+from db.database import aquinosusers, dbtecidos, modelos_aquinos, modelos_aquinos_inv
 from db.randomnames import Getnames
-from functions import frasesmodelos, rexgifs, weeknum, aqpassgen
+from functions import frasesmodelos, rexgifs, weeknum, aqpassgen, Dict_tecidos
 from embed import Rexembed
+
 
 
 client = commands.Bot(command_prefix='!')
@@ -24,25 +25,24 @@ async def on_ready():
 
 @client.command()
 async def version(ctx):
+    '''Versão atual do Rex'''
+
     await ctx.send(embed=Rexembed('You are running rex version 1.2', colour='red').normal_embed())
 
 
-'''
+
 @client.command()
-async def rev(ctx, *, content):
-    if ctx.author.name in aquinosusers:
-        print(f'On !rev : {ctx.author.name} at {time.ctime()} -- {content}')
-        content = str(content).strip().upper()
-        if content in dc_tc:
-            if dc_tc[content][0] == ' ':
-                await ctx.send(f'{tecidos[content]}{dc_tc[content]}')
-            else:
-                await ctx.send(dc_tc[content])
-        else:
-            await ctx.send(f'Sorry {ctx.author.name}! Não encontro esse codigo!')
+async def rev(ctx, *, rev):
+    tecido = Dict_tecidos(rev)
+    if tecido.descrição() == '':
+        tecido_db = dbtecidos[rev] # resolver problema - erro
+        await ctx.send(embed=Rexembed(tecido_db,
+         f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
     else:
-        await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
-'''
+        await ctx.send(embed=Rexembed(tecido.descrição(),
+         f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
+
+
 
 '''
 @client.command()
@@ -76,32 +76,7 @@ async def mod(ctx, *, content):
     else:
         await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
 
-'''
-@client.command()
-async def todos(ctx):
-    if ctx.author.name in aquinosusers:
-        file_registos = xlrd.open_workbook('//STORAGE/Creative/DESENVOLVIMENTO/REGISTO GERAL DE DESENVOLVIMENTOS.xlsx')
-        sheet = file_registos.sheet_by_index(0)
-        rows = sheet.nrows
-        estado = ('POR INICIAR', 'EM DESENVOLVIMENTO', '')
-        if ctx.author.name == 'Wirso':
-            atribuido = 'WILSON'
-        elif ctx.author.name == 'Sandro':
-            atribuido = 'SANDRO'
-        elif ctx.author.name == 'Mrs. Jenni':
-            atribuido = 'JENNIFER'
-        await ctx.send(f'Deixa-me consultar aqui o almanaque {ctx.author.name}!')
-        time.sleep(1)
-        for n in range(rows):
-            if sheet.cell_value(n, 7) == atribuido and sheet.cell_value(n, 2) in estado:
-                id = sheet.cell_value(n, 0)
-                deadline = sheet.cell_value(n, 11)
-                descrição = sheet.cell_value(n, 4)
-                await ctx.send(f' \n -{id} |  {descrição}  |   {deadline[8:]}\n ')
-        await ctx.send('E pronto...é isto que tens para fazer!')
-    else:
-        await ctx.send('Man, vai pedir trabalho ao teu patrão!')
-'''
+
 
 
 @client.command()
@@ -165,7 +140,7 @@ async def gama(ctx, *,content):
 
 
 @client.command()
-async def names(ctx, *, types='boy_names'):
+async def nomes(ctx, *, types='boy_names'):
     listnames = Getnames(types)
     names = listnames.getnames()[:4]
     await ctx.send(embed=Rexembed('Lista de nomes:',

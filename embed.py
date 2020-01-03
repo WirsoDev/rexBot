@@ -12,6 +12,8 @@ class Rexembed:
             self.colour = discord.Colour.red()
         elif colour == 'green':
             self.colour = discord.Colour.green()
+        elif colour == 'blue':
+            self.colour = discord.Colour.blue()
 
 
     def normal_embed(self):
