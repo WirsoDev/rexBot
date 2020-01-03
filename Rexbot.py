@@ -9,6 +9,7 @@ from tokan import tokan
 from db.database import aquinosusers, tecidos, modelos_aquinos, modelos_aquinos_inv
 from db.randomnames import Getnames
 from functions import frasesmodelos, rexgifs, weeknum, aqpassgen
+from embed import Rexembed
 
 
 client = commands.Bot(command_prefix='!')
@@ -23,7 +24,7 @@ async def on_ready():
 
 @client.command()
 async def version(ctx):
-    await ctx.send('You are running rex version 1.2')
+    await ctx.send(embed=Rexembed('You are running rex version 1.2', colour='red').normal_embed())
 
 
 '''
@@ -127,7 +128,7 @@ Boa sorte a decorar isto! :D'''
 
     password = aqpassgen(ctx)
     print(f'pass {password} gerada para {ctx.author.name}')
-    await ctx.author.send(f'Pass gerada: {password}')
+    await ctx.author.send(embed=Rexembed(f'Pass gerada:', f'{password}', colour='green').normal_embed())
     time.sleep(0.3)
     await ctx.send(f'A tua pass foi gerada e enviada por MP')
 
@@ -166,19 +167,15 @@ async def gama(ctx, *,content):
 @client.command()
 async def names(ctx, *, types='boy_names'):
     listnames = Getnames(types)
-    await ctx.send('Lista de nomes:\n')
-    for names in listnames.getnames()[:4]:
-        await ctx.send(names)
+    names = listnames.getnames()[:4]
+    await ctx.send(embed=Rexembed('Lista de nomes:',
+    f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}',
+    'green'
+
+    ).normal_embed())
 
 
-@client.command()
-async def test(ctx, *args):
-    retStr = str("""```css\nThis is some colored Text```""")
-    embed = discord.Embed(title="Random test")
-    embed.add_field(name="Name field can't be colored as it seems",value=retStr)
-    await ctx.send(embed=embed)
 
-    
 
 @client.event
 async def on_message(message):
