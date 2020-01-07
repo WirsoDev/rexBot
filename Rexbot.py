@@ -7,7 +7,7 @@ from NAV_FILES import dc_tc, dc_models, dc_cod_models
 import xlrd
 from tokan import tokan
 from db.database import aquinosusers, dbtecidos, modelos_aquinos, modelos_aquinos_inv
-from db.randomnames import Getnames
+from external_api.names import Getnames
 from functions import frasesmodelos, rexgifs, weeknum, aqpassgen, Dict_tecidos
 from embed import Rexembed
 
