@@ -33,15 +33,24 @@ async def version(ctx):
 
 @client.command()
 async def rev(ctx, *, rev):
+    rev = rev.upper().strip()
     tecido = Dict_tecidos(rev)
-    if tecido.descrição() == '':
-        tecido_db = dbtecidos[rev] # resolver problema - erro
-        await ctx.send(embed=Rexembed(tecido_db,
-         f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
+    if rev not in tecido.codigo():
+        await ctx.send('ERROR')
     else:
-        await ctx.send(embed=Rexembed(tecido.descrição(),
-         f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
-
+        try:
+            if tecido.descrição() == '':
+                if rev in dbtecidos:
+                    tecido_db = dbtecidos[rev]
+                    await ctx.send(embed=Rexembed(tecido_db,
+                    f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
+                else:
+                    await ctx.send(embed=Rexembed('ERRO: Codigo não valido', colour='red').normal_embed)
+            else:
+                await ctx.send(embed=Rexembed(tecido.descrição(),
+                f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
+        except:
+            await ctx.send(embed=Rexembed('ERRO: Alguma coisa correu mal :/', colour='red').normal_embed)
 
 
 '''

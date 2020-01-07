@@ -49,6 +49,16 @@ class Dict_tecidos:
 
         return dic_metros[self.rev]
 
+    
+    def codigo(self):
+        dic_codigo = {}
+
+        for n in range(self.sheet_tecidos.nrows):
+            codigo = self.sheet_tecidos.cell_value(n, 2)
+            dic_codigo[codigo] = (codigo)
+
+        return dic_codigo[self.rev]
+
 
 # random quoutes lists
 
