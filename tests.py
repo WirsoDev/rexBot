@@ -1,61 +1,18 @@
-import xlrd
+import requests
+from bs4 import BeautifulSoup as bs
+import json
+import string
+
+url = 'http://spys.one/free-proxy-list/PT/'
+
+page = requests.get(url).text
+bspage = bs(page, 'html.parser')
 
 
-class Dict_tecidos:
+# print(bspage.find('font', class_='spy14'))
 
-    def __init__(self, rev):
-
-        tecidos = (r'EXCEL LIBS/TC_02.xlsx')
-        self.sheet_tecidos = xlrd.open_workbook(tecidos).sheet_by_index(0)
-        self.rev = rev.strip().upper()
-
-
-
-    def descrição(self):
-
-        dic_descrição = {}
-
-        for n in range(self.sheet_tecidos.nrows):
-            codigo = self.sheet_tecidos.cell_value(n, 2)
-            descrição = self.sheet_tecidos.cell_value(n, 3)
-            dic_descrição[codigo] = (descrição)
-
-        return dic_descrição[self.rev]
-
-
-    def preço(self):
-
-        dic_preço = {}
-
-        for n in range(self.sheet_tecidos.nrows):
-            codigo = self.sheet_tecidos.cell_value(n, 2)
-            preço = self.sheet_tecidos.cell_value(n, 11)
-            dic_preço[codigo] = (preço)
-
-        return dic_preço[self.rev]
-
-
-    def metros(self):
-
-        dic_metros = {}
-
-        for n in range(self.sheet_tecidos.nrows):
-            codigo = self.sheet_tecidos.cell_value(n, 2)
-            metros = self.sheet_tecidos.cell_value(n, 16)
-            dic_metros[codigo] = (metros)
-
-        return dic_metros[self.rev]
-
-
-
-
-
-if __name__ == "__main__":
-    tecido = Dict_tecidos(rev)
-
-
-    
-
+for x in bspage.find_all('font', class_='spy14'):
+    print(x.text)
 
 
 
