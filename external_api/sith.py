@@ -43,6 +43,31 @@ class SithTranslator:
         proxy = random.choice(proxies)
         return proxy
 
+    
+    def checkconnection(self):
+        url = url = f'https://api.funtranslations.com/translate/sith.json?text={self.text}'
+
+        proxies = ['185.37.211.222:50330', '95.136.51.249:8080', 
+                   '213.58.202.70:54214', '5.206.230.62:59355',
+                   '193.136.119.21:80', '88.210.71.234:61357']
+
+        # teste connections
+        proxy_pool = []
+
+        for x in proxies:
+            print(f'Proxy in use:{x}\n----------')
+            try:
+                connection = requests.get(url)
+                print(f'connection: {connection}')
+                if connection == 'Response [200]':
+                    proxy_pool.append(x)
+                    connection.close()
+
+            except:
+                print('error to connect')
+            
+        print(proxy_pool)
+
 
 
     def sithtranslator(self):
@@ -59,4 +84,4 @@ api = SithTranslator(text)
 
 
 
-print(api.sithtranslator())
+print(api.checkconnection())
