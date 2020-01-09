@@ -6,34 +6,13 @@ import random
 
 class Getnames:
 
-    '''Request a api of random names from drycodes
-       Options = 
-                ALL
-                Boy Names
-                Cities
-                Continents
-                Countries
-                Films
-                Funny Words
-                Games
-                Girl Names
-                Job Titles
-                Objects
-                Planets
-                Presidents
-                Star Wars Characters
-                Star Wars First Names
-                Star Wars Last Names
-                Star Wars Titles
-                States
+    '''Request a random list of names from API drycodes'''
+    
 
-    '''
-    options = random.choice(['Boy Names', 'Girl Names'])
-
-    def __init__(self, option=options):
+    def __init__(self, option=''):
 
 
-        self.option = option
+        self.option = random.choice(['boy_names', 'girl_names'])
 
 
     def getnames(self):
@@ -46,8 +25,8 @@ class Getnames:
         listofnames = []
 
         for names in api_return:
-            split = names.split('_')
-            listofnames.append(split[0])
+            namessplit = names.split('_') 
+            listofnames.append(namessplit[0])
 
         return listofnames
 

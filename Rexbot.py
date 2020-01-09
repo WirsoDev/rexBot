@@ -1,3 +1,10 @@
+# main program 
+
+__title__ = 'rexbot'
+__author__ = 'Wirso'
+__copyright__ = 'Copyright 2019-2020 wirso'
+__version__ = '1.2'
+
 from discord.ext import commands
 import discord
 import random
@@ -13,6 +20,7 @@ from embed import Rexembed
 
 
 
+# init cliente
 client = commands.Bot(command_prefix='!')
 
 
@@ -23,11 +31,16 @@ async def on_ready():
     print('='*80)
 
 
+
 @client.command()
 async def version(ctx):
     '''Versão atual do Rex'''
 
-    await ctx.send(embed=Rexembed('You are running rex version 1.2', colour='red').normal_embed())
+    await ctx.send(embed=Rexembed(f'You are running rex version{__version__}', colour='red', {__copyright__}).normal_embed())
+
+
+
+#main commands
 
 
 
@@ -170,14 +183,12 @@ async def gama(ctx, *,content):
 
 
 @client.command()
-async def nomes(ctx, *, types='boy_names'):
+async def nomes(ctx, *, types=''):
 
     listnames = Getnames(types)
     names = listnames.getnames()[:5]
 
-    await ctx.send(embed=Rexembed('Lista de nomes:',
-    f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}',
-    'green').normal_embed())
+    await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
 
 
 
