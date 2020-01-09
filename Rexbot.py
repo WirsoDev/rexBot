@@ -33,6 +33,27 @@ async def version(ctx):
 
 @client.command()
 async def rev(ctx, *, rev):
+    rev = rev.strip().upper()
+    try:
+        tecido = Dict_tecidos(rev)
+        if tecido.descrição() == '':
+            if tecido.preço() == 0:
+                await ctx.send(embed=Rexembed(dbtecidos[rev], 'Sem stock - € não disponivel', 'green').normal_embed())
+            else:
+                await ctx.send(embed=Rexembed(dbtecidos[rev], f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
+        else:
+            if tecido.preço() == 0:
+                await ctx.send(embed=Rexembed(tecido.descrição(), 'Sem stock - € não disponivel', 'green').normal_embed())
+            else:
+                await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
+
+    except:
+        await ctx.send(embed=Rexembed('Codido não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
+
+
+'''
+@client.command()
+async def rev(ctx, *, rev):
     rev = rev.upper().strip()
     tecido = Dict_tecidos(rev)
     if rev not in tecido.codigo():
@@ -51,7 +72,7 @@ async def rev(ctx, *, rev):
                 f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
         except:
             await ctx.send(embed=Rexembed('ERRO: Alguma coisa correu mal :/', colour='red').normal_embed)
-
+'''
 
 '''
 @client.command()
@@ -150,13 +171,13 @@ async def gama(ctx, *,content):
 
 @client.command()
 async def nomes(ctx, *, types='boy_names'):
-    listnames = Getnames(types)
-    names = listnames.getnames()[:4]
-    await ctx.send(embed=Rexembed('Lista de nomes:',
-    f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}',
-    'green'
 
-    ).normal_embed())
+    listnames = Getnames(types)
+    names = listnames.getnames()[:5]
+
+    await ctx.send(embed=Rexembed('Lista de nomes:',
+    f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}',
+    'green').normal_embed())
 
 
 
