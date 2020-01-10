@@ -1,9 +1,11 @@
 # main program 
 
+
 __title__ = 'rexbot'
 __author__ = 'Wirso'
 __copyright__ = 'Copyright 2019-2020 wirso'
 __version__ = '1.2'
+
 
 from discord.ext import commands
 import discord
@@ -19,7 +21,6 @@ from functions import frasesmodelos, rexgifs, weeknum, aqpassgen, Dict_tecidos
 from embed import Rexembed
 
 
-
 # init cliente
 client = commands.Bot(command_prefix='!')
 
@@ -31,21 +32,29 @@ async def on_ready():
     print('='*80)
 
 
-
 @client.command()
 async def version(ctx):
     '''Versão atual do Rex'''
 
-    await ctx.send(embed=Rexembed(f'You are running rex version{__version__}', colour='red', {__copyright__}).normal_embed())
-
+    await ctx.send(embed=Rexembed(f'You are running rex version{__version__}', colour='red', description=f'{__copyright__}').normal_embed())
 
 
 #main commands
 
 
-
 @client.command()
 async def rev(ctx, *, rev):
+    '''Procura informações de restimentos aquinos.
+
+        . Nome
+        . qunatidade em stock
+        . preço por metro
+       
+       Argumento obrigatório -> Codigo de revestimento
+       
+       Exemplo: !rev c1758 -> Zenith 606 ...
+       
+       '''
     rev = rev.strip().upper()
     try:
         tecido = Dict_tecidos(rev)
@@ -64,45 +73,6 @@ async def rev(ctx, *, rev):
         await ctx.send(embed=Rexembed('Codido não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
 
 
-'''
-@client.command()
-async def rev(ctx, *, rev):
-    rev = rev.upper().strip()
-    tecido = Dict_tecidos(rev)
-    if rev not in tecido.codigo():
-        await ctx.send('ERROR')
-    else:
-        try:
-            if tecido.descrição() == '':
-                if rev in dbtecidos:
-                    tecido_db = dbtecidos[rev]
-                    await ctx.send(embed=Rexembed(tecido_db,
-                    f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
-                else:
-                    await ctx.send(embed=Rexembed('ERRO: Codigo não valido', colour='red').normal_embed)
-            else:
-                await ctx.send(embed=Rexembed(tecido.descrição(),
-                f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
-        except:
-            await ctx.send(embed=Rexembed('ERRO: Alguma coisa correu mal :/', colour='red').normal_embed)
-'''
-
-'''
-@client.command()
-async def cod(ctx, *, content):
-    if ctx.author.name in aquinosusers:
-        print(f'On !cod : {ctx.author.name} at {time.ctime()} -- {content}')
-        content = content.upper().strip()
-        frases_modelos_ramd = random.choice(frasesmodelos)
-        if content in dc_models:
-            await ctx.send('Esse é o modelo ' + dc_models[content] + frases_modelos_ramd)
-        else:
-            await ctx.send(f'Humm...parece que não ha nada disso por aqui {ctx.author.name}.\n'
-                           f'Esse codigo não deve estar criado!')
-    else:
-        await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
-'''
-
 @client.command()
 async def mod(ctx, *, content):
     if ctx.author.name in aquinosusers:
@@ -120,8 +90,6 @@ async def mod(ctx, *, content):
         await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
 
 
-
-
 @client.command()
 async def week(ctx):
     '''Retorna o numero da semana actual'''
@@ -132,65 +100,38 @@ async def week(ctx):
 async def genpass(ctx, *, givenname=''):
 
     '''Gera uma pass aleatória de 10 caracteres dentro das normas dos Aquinos
-Ignora caracteres no nome do utilizador caso o givenname não seja atribuido.
+    Ignora caracteres no nome do utilizador caso o givenname não seja atribuido.
 
-A pass é enviada por mensagem privada.
+    A pass é enviada por mensagem privada.
 
-Exemplo: !genpass - Returns: qC/T40dQ#5 
-Caracteres ignorados: w, i, l, s, o, n
+    Exemplo: !genpass - Returns: qC/T40dQ#5 
+    Caracteres ignorados: w, i, l, s, o, n
 
-Exemplo 2: !genpass wilsonmarques - Returns: qC/T40dQ#5
-Caracteres ignorados: w, i, l, s, o, n, m, a, r, q, e
+    Exemplo 2: !genpass wilsonmarques - Returns: qC/T40dQ#5
+    Caracteres ignorados: w, i, l, s, o, n, m, a, r, q, e
 
-Boa sorte a decorar isto! :D'''
+    Boa sorte a decorar isto! :D'''
 
     password = aqpassgen(ctx)
     print(f'pass {password} gerada para {ctx.author.name}')
     await ctx.author.send(embed=Rexembed(f'Pass gerada:', f'{password}', colour='green').normal_embed())
     time.sleep(0.3)
-    await ctx.send(f'A tua pass foi gerada e enviada por MP')
-
-'''
-@client.command()
-async def gama(ctx, *,content):
-    print(f'On !gama : {ctx.author.name} at {time.ctime()} -- {content}')
-    key = content.strip()
-    file = xlrd.open_workbook(r'\\STORAGE\Creative\DC_DOCS\LISTA DE REVESTIMENTOS_NAV.xlsx')
-    work_sheet = file.sheet_by_index(0)
-    rows = work_sheet.nrows
-    key01 = key.lower().strip()
-    key02 = key.upper().strip()
-    key03 = key.capitalize().strip()
-    list = []
-    await ctx.send(':BETA TESTING:')
-    if len(key) <= 0:
-        pass
-    else:
-        for itens in range(rows):
-            name = str(work_sheet.cell_value(itens, 1))
-            cod = work_sheet.cell_value(itens, 2)
-            if 'EUROFACTOR' not in name:
-                if key01 in name:
-                    list.append(f'{name} -- {cod}')
-                elif key02 in name:
-                    list.append(f'{name} -- {cod}')
-                elif key03 in name:
-                    list.append(f'{name} -- {cod}')
-        for lines in list:
-            await ctx.send(lines)
-        await ctx.send(f'E é isso {ctx.author.name}! ')
-'''
+    await ctx.send(embed=Rexembed(f'A tua pass foi gerada e enviada por MP!', colour='blue').normal_embed())
 
 
 @client.command()
 async def nomes(ctx, *, types=''):
+    '''Cria uma lista de 5 nomes random.
+
+    Não tem argumentos obrigatórios
+
+    Exemplo: !nomes -> Benji, Caiden, Paul, ...
+    '''
 
     listnames = Getnames(types)
     names = listnames.getnames()[:5]
 
     await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
-
-
 
 
 @client.event
