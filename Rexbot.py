@@ -12,7 +12,6 @@ import discord
 import random
 import wikipedia
 import time
-from NAV_FILES import dc_tc, dc_models, dc_cod_models
 import xlrd
 from tokan import tokan
 from db.database import aquinosusers, dbtecidos
@@ -131,8 +130,8 @@ async def modelo(ctx, *, codigo):
     '''
     try:
         modelo = Dict_modelos(codigo)
-        await ctx.send(embed=Rexembed(f'{modelo.codigo()}', colour='green').normal_embed())
-    except:
+        await ctx.send(embed=Rexembed(f'{modelo.nome()}', colour='green').normal_embed())
+    except KeyError:
         await ctx.send(embed=Rexembed('Codigo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
 @client.command()
@@ -145,8 +144,8 @@ async def cod(ctx, modelo):
     '''
     try:
         codigo = Dict_modelos(modelo)
-        await ctx.send(embed=Rexembed(f'{codigo.nome()}', colour='red').normal_embed())
-    except:
+        await ctx.send(embed=Rexembed(f'{codigo.codigo()}', colour='green').normal_embed())
+    except KeyError:
         await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
 # fun stuff

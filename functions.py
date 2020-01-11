@@ -166,4 +166,5 @@ def rexgifs():
 
 
 if __name__ == "__main__":
-    pass
+    modelos = Dict_modelos('618')
+    print(modelos.nome())
