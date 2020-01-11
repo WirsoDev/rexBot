@@ -6,31 +6,6 @@ import xlrd
 
 
 
-# random quoutes lists
-
-
-def frasesmodelos():
-
-    '''Returns random quoutes about the models'''
-
-    frases = [
-        'Bela merda de modelo!!', 'Este modelo é bem bonito!!',
-                  'Qualidade americana este modelo!!', 'Jasus...nem digo nada!!',
-                  'Mas isto vai dar em alguma coisa??', '!Isto é um sofa??', ':D :D :D :D JASUS!!!']
-    return random.choice(frases)
-
-
-def rexgifs():
-
-    '''Returns random gifs for when rex go's online'''
-
-    frases = ['https://tenor.com/view/dinosaur-trex-summersault-boom-running-gif-9694162',
-            'https://tenor.com/view/trex-horse-soccer-what-the-heck-wtf-gif-5080299',
-            'https://tenor.com/view/rex-snow-snow-shovel-gif-15013849','https://tenor.com/view/trex-arms-gif-7622211']
-
-    return(random.choice(frases))
-
-
 # datetime functions
 
 
@@ -145,6 +120,47 @@ class Dict_tecidos:
             dic_codigo[codigo] = (codigo)
 
         return dic_codigo[self.rev]
+
+
+class Dict_modelos:
+    def __init__(self, cod):
+        modelos = (r'EXCEL LIBS/MODELOS.xlsx')
+        self.sheet_modelos = xlrd.open_workbook(modelos).sheet_by_index(0)
+        self.cod = cod.strip().upper()
+
+    
+    def nome(self):
+
+        dic_modelos = {}
+
+        for n in range(self.sheet_modelos.nrows):
+            codigo = self.sheet_modelos.cell_value(n, 0)
+            nome = self.sheet_modelos.cell_value(n, 1)
+            dic_modelos[codigo] = (nome)
+        
+        return dic_modelos[self.cod]
+
+    def codigo(self):
+
+        dic_codigo = {}
+
+        for n in range(self.sheet_modelos.nrows):
+            nome = self.sheet_modelos.cell_value(n, 1)
+            codigo = self.sheet_modelos.cell_value(n, 0)
+            dic_codigo[nome] = (codigo)
+
+        return dic_codigo[self.cod]
+
+
+def rexgifs():
+
+    '''Returns random gifs for when rex go's online'''
+
+    frases = ['https://tenor.com/view/dinosaur-trex-summersault-boom-running-gif-9694162',
+            'https://tenor.com/view/trex-horse-soccer-what-the-heck-wtf-gif-5080299',
+            'https://tenor.com/view/rex-snow-snow-shovel-gif-15013849','https://tenor.com/view/trex-arms-gif-7622211']
+
+    return(random.choice(frases))
     
 
 

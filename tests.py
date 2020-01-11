@@ -30,43 +30,45 @@ async def gama(ctx, *,content):
         '''
 
 
-'''
-@client.command()
-async def rev(ctx, *, rev):
-    rev = rev.upper().strip()
-    tecido = Dict_tecidos(rev)
-    if rev not in tecido.codigo():
-        await ctx.send('ERROR')
-    else:
-        try:
-            if tecido.descrição() == '':
-                if rev in dbtecidos:
-                    tecido_db = dbtecidos[rev]
-                    await ctx.send(embed=Rexembed(tecido_db,
-                    f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
-                else:
-                    await ctx.send(embed=Rexembed('ERRO: Codigo não valido', colour='red').normal_embed)
-            else:
-                await ctx.send(embed=Rexembed(tecido.descrição(),
-                f'{tecido.metros()} metros em stock - {tecido.preço()}€', 'green').normal_embed())
-        except:
-            await ctx.send(embed=Rexembed('ERRO: Alguma coisa correu mal :/', colour='red').normal_embed)
-'''
+import xlrd
 
-'''
-@client.command()
-async def cod(ctx, *, content):
-    if ctx.author.name in aquinosusers:
-        print(f'On !cod : {ctx.author.name} at {time.ctime()} -- {content}')
-        content = content.upper().strip()
-        frases_modelos_ramd = random.choice(frasesmodelos)
-        if content in dc_models:
-            await ctx.send('Esse é o modelo ' + dc_models[content] + frases_modelos_ramd)
-        else:
-            await ctx.send(f'Humm...parece que não ha nada disso por aqui {ctx.author.name}.\n'
-                           f'Esse codigo não deve estar criado!')
-    else:
-        await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
-'''
+class Dict_modelos:
+    def __init__(self, cod):
+        modelos = (r'EXCEL LIBS/MODELOS.xlsx')
+        self.sheet_modelos = xlrd.open_workbook(modelos).sheet_by_index(0)
+        self.cod = cod.strip().upper()
+
+    
+    def nome(self):
+
+        dic_modelos = {}
+
+        for n in range(self.sheet_modelos.nrows):
+            codigo = self.sheet_modelos.cell_value(n, 0)
+            nome = self.sheet_modelos.cell_value(n, 1)
+            dic_modelos[codigo] = (nome)
+        
+        return dic_modelos[self.cod]
+
+    def codigo(self):
+
+        dic_codigo = {}
+
+        for n in range(self.sheet_modelos.nrows):
+            nome = self.sheet_modelos.cell_value(n, 1)
+            codigo = self.sheet_modelos.cell_value(n, 0)
+            dic_codigo[nome] = (codigo)
+
+        return dic_codigo[self.cod]
+
+
+if __name__ == "__main__":
+    modelo = Dict_modelos('079')
+    codigo = Dict_modelos('nevada')
+
+    print(modelo.nome())
+    print(codigo.codigo())
+
+
 
 

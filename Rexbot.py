@@ -15,9 +15,9 @@ import time
 from NAV_FILES import dc_tc, dc_models, dc_cod_models
 import xlrd
 from tokan import tokan
-from db.database import aquinosusers, dbtecidos, modelos_aquinos, modelos_aquinos_inv
+from db.database import aquinosusers, dbtecidos
 from external_api.names import Getnames
-from functions import frasesmodelos, rexgifs, weeknum, aqpassgen, Dict_tecidos
+from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
 from embed import Rexembed
 
 
@@ -74,25 +74,13 @@ async def rev(ctx, *, rev):
 
 
 @client.command()
-async def mod(ctx, *, content):
-    if ctx.author.name in aquinosusers:
-        print(f'On !mod : {ctx.author.name} at {time.ctime()} -- {content}')
-        content = content.upper().strip()
-        if content in dc_cod_models:
-            await ctx.send('Esse modelo é o ' + dc_cod_models[content])
-        elif content not in dc_cod_models:
-            if content in modelos_aquinos_inv:
-                await ctx.send('Esse modelo é o ' + modelos_aquinos_inv[content])
-            else:
-                await ctx.send(f'Humm...parece que não ha nada disso por aqui {ctx.author.name}.\n'
-                                   f'Esse codigo ainda não deve estar criado!')
-    else:
-        await ctx.send(f'Sorry {ctx.author.name}, mas não tens competencia para usar um comando deste calibre!')
-
-
-@client.command()
 async def week(ctx):
-    '''Retorna o numero da semana actual'''
+    '''Retorna o numero da semana actual
+
+       Não tem argumentos obrigatórios
+
+       Exemplo: !week 
+    '''
     await ctx.send(f'Estás na semana {weeknum()}')
 
 
@@ -127,11 +115,41 @@ async def nomes(ctx, *, types=''):
 
     Exemplo: !nomes -> Benji, Caiden, Paul, ...
     '''
-
     listnames = Getnames(types)
     names = listnames.getnames()[:5]
 
     await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
+
+
+@client.command()
+async def modelo(ctx, *, codigo):
+    '''Retorna o codigo do modelo procurado.
+
+       Argumento obrigatótio -> Codigo do modelo
+
+       Exemplo: !modelo maxx -> 1017
+    '''
+    try:
+        modelo = Dict_modelos(codigo)
+        await ctx.send(embed=Rexembed(f'{modelo.codigo()}', colour='green').normal_embed())
+    except:
+        await ctx.send(embed=Rexembed('Codigo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
+
+@client.command()
+async def cod(ctx, modelo):
+    '''Retorna o nome do modelo procurado.
+
+       Argumento obrigatótio -> Nome do modelo
+
+       Exemplo: !modelo 1017 -> maxx
+    '''
+    try:
+        codigo = Dict_modelos(modelo)
+        await ctx.send(embed=Rexembed(f'{codigo.nome()}', colour='red').normal_embed())
+    except:
+        await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
+
+# fun stuff
 
 
 @client.event
