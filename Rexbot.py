@@ -77,7 +77,7 @@ async def rev(ctx, *, rev):
 async def week(ctx):
     '''Retorna o numero da semana actual
 
-       Não tem argumentos obrigatórios
+       Não tem argumentos obrigatórios 
 
        Exemplo: !week 
     '''
