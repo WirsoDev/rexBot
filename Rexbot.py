@@ -5,6 +5,7 @@ __title__ = 'rexbot'
 __author__ = 'Wirso'
 __copyright__ = 'Copyright 2020 wirso'
 __version__ = '1.2.0'
+__github__ = 'https://github.com/WirsoDev/rexBot'
 
 
 from discord.ext import commands
@@ -18,6 +19,7 @@ from db.database import aquinosusers, dbtecidos
 from external_api.names import Getnames
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
 from embed import Rexembed
+from docs.news_v1_2 import title_main, descrição_main
 
 
 # init cliente
@@ -35,9 +37,7 @@ async def on_ready():
 @client.command()
 async def version(ctx):
     '''Versão atual do Rex'''
-
-    await ctx.send(embed=Rexembed(f'You are running rex version {__version__}', colour='blue',
-    description=f'{__copyright__} - Source code: https://github.com/WirsoDev/rexBot').normal_embed())
+    await ctx.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
 
 
 #main commands
