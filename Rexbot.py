@@ -45,7 +45,7 @@ async def version(ctx):
 
 @client.command()
 async def rev(ctx, *, rev):
-    '''Procura informações de restimentos aquinos.
+    '''Procura informações de revestimentos aquinos.
 
         . Nome
         . quantidade em stock
