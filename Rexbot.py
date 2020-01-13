@@ -3,8 +3,8 @@
 
 __title__ = 'rexbot'
 __author__ = 'Wirso'
-__copyright__ = 'Copyright 2019-2020 wirso'
-__version__ = '1.2'
+__copyright__ = 'Copyright 2020 wirso'
+__version__ = '1.2.0'
 
 
 from discord.ext import commands
@@ -31,11 +31,13 @@ async def on_ready():
     print('='*80)
 
 
+
 @client.command()
 async def version(ctx):
     '''Versão atual do Rex'''
 
-    await ctx.send(embed=Rexembed(f'You are running rex version{__version__}', colour='red', description=f'{__copyright__}').normal_embed())
+    await ctx.send(embed=Rexembed(f'You are running rex version {__version__}', colour='blue',
+    description=f'{__copyright__} - Source code: https://github.com/WirsoDev/rexBot').normal_embed())
 
 
 #main commands
@@ -46,7 +48,7 @@ async def rev(ctx, *, rev):
     '''Procura informações de restimentos aquinos.
 
         . Nome
-        . qunatidade em stock
+        . quantidade em stock
         . preço por metro
        
        Argumento obrigatório -> Codigo de revestimento
@@ -73,6 +75,29 @@ async def rev(ctx, *, rev):
 
 
 @client.command()
+async def gama(ctx, *, rev):
+    '''Lista todos os revestimentos da gama. 
+
+       Argumento obrigatório -> Nome da gama do revestimento
+
+       Exemplo: !gama boston -> Boston Black - G0601, Boston SKY - G0621, ...
+    '''
+    try:
+        revestimento = Dict_tecidos(rev)
+        if len(revestimento.gamas()) == 0:
+            await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
+        else:
+            for itens in revestimento.gamas():
+                await ctx.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
+
+            await ctx.send(embed=Rexembed('Done!!', colour='green').normal_embed())
+    
+    except KeyError:
+        await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
+
+
+
+@client.command()
 async def week(ctx):
     '''Retorna o numero da semana actual
 
@@ -80,7 +105,7 @@ async def week(ctx):
 
        Exemplo: !week 
     '''
-    await ctx.send(f'Estás na semana {weeknum()}')
+    await ctx.send(embed=Rexembed(f'Estás na semana {weeknum()}', colour='blue'))
 
 
 @client.command()
@@ -134,6 +159,7 @@ async def modelo(ctx, *, codigo):
     except KeyError:
         await ctx.send(embed=Rexembed('Codigo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
+
 @client.command()
 async def cod(ctx, modelo):
     '''Retorna o nome do modelo procurado.
@@ -148,8 +174,8 @@ async def cod(ctx, modelo):
     except KeyError:
         await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
-# fun stuff
 
+# fun stuff
 
 @client.event
 async def on_message(message):

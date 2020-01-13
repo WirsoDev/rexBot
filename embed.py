@@ -1,3 +1,6 @@
+# personal discord embed for rex 
+
+
 import discord
 
 

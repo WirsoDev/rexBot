@@ -75,6 +75,9 @@ class Dict_tecidos:
         self.sheet_tecidos = xlrd.open_workbook(tecidos).sheet_by_index(0)
         self.rev = rev.strip().upper()
 
+        old_tecidos = (r'EXCEL LIBS/tc_oldlist.xlsx')
+        self.sheet_old_tecidos = xlrd.open_workbook(old_tecidos).sheet_by_index(0)
+
 
     def descrição(self):
 
@@ -121,7 +124,28 @@ class Dict_tecidos:
 
         return dic_codigo[self.rev]
 
+    def gamas(self):
 
+        lista_01 = []
+        Lista_02 = []
+
+        for n in range(self.sheet_tecidos.nrows):
+            descrição = self.sheet_tecidos.cell_value(n, 3)
+            codigo = self.sheet_tecidos.cell_value(n, 2)
+            if self.rev in descrição:
+                lista_01.append(f'{descrição} - {codigo}')
+        
+        for n in range(self.sheet_old_tecidos.nrows):
+            descrição = self.sheet_old_tecidos.cell_value(n, 1)
+            codigo = self.sheet_old_tecidos.cell_value(n, 2)
+            if self.rev in descrição:
+                Lista_02.append(f'{descrição} - {codigo}')
+
+
+        return list(set(lista_01 + Lista_02))
+
+
+        
 class Dict_modelos:
     def __init__(self, cod):
         modelos = (r'EXCEL LIBS/MODELOS.xlsx')
@@ -166,5 +190,9 @@ def rexgifs():
 
 
 if __name__ == "__main__":
-    modelos = Dict_modelos('618')
-    print(modelos.nome())
+    revestimento = input('rev: ')
+    gama = Dict_tecidos(revestimento)
+    print(gama.gamas())
+
+
+
