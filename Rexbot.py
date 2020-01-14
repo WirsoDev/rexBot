@@ -108,7 +108,7 @@ async def week(ctx):
 
        Exemplo: !week 
     '''
-    await ctx.send(embed=Rexembed(f'Estás na semana {weeknum()}', colour='blue'))
+    await ctx.send(embed=Rexembed(f'Estás na semana {weeknum()}', colour='blue').normal_embed())
 
 
 @client.command()
@@ -128,9 +128,8 @@ async def genpass(ctx, *, givenname=''):
     Boa sorte a decorar isto! :D'''
 
     password = aqpassgen(ctx)
-    print(f'pass {password} gerada para {ctx.author.name}')
     await ctx.author.send(embed=Rexembed(f'Pass gerada:', f'{password}', colour='green').normal_embed())
-    time.sleep(0.3)
+    time.sleep(0.2)
     await ctx.send(embed=Rexembed(f'A tua pass foi gerada e enviada por MP!', colour='blue').normal_embed())
 
 

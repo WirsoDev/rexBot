@@ -43,6 +43,8 @@ def aqpassgen(ctx, givenname=''):
                 name = 'Jennifer'
             elif nickname == 'dani_a_ventura':
                 name = 'Daniela'
+            elif nickname == 'Sandro':
+                name = 'Sandro'
         else:
             name = ctx.author.name
         return name
