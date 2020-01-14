@@ -32,8 +32,8 @@ async def on_ready():
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
 
-    channel_news = client.get_channel(585752207501033472)
-    await channel_news.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
+    # channel_news = client.get_channel(655087818040672266)
+    # await channel_news.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
 
 
 

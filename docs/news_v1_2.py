@@ -12,7 +12,7 @@ descrição_main = f'''Versão 1.2.0
 
                     Comandos:
 
-                      !rev - Procura informações de reve aquinos
+                      !rev - Procura informações de revestimentos aquinos
 
                       !gama - Lista todos os revestimentos da gama (FIXED!)
 
