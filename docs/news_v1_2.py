@@ -1,6 +1,6 @@
 
 #main intro
-title_main = 'Olá :)\n'
+title_main = 'Olá :)\n '
 
 descrição_main = f'''Versão 1.2.0
                     
@@ -12,9 +12,9 @@ descrição_main = f'''Versão 1.2.0
 
                     Comandos:
 
-                      !rev - Procura informações de restimentos aquinos
+                      !rev - Procura informações de reve aquinos
 
-                      !gama - Lista todos os revestimentos da gama
+                      !gama - Lista todos os revestimentos da gama (FIXED!)
 
                       !week - Numero da semana actual
 
@@ -22,9 +22,9 @@ descrição_main = f'''Versão 1.2.0
 
                       !nomes - Cria uma lista de 5 nomes random
 
-                      !modelo - Retorna o codigo do modelo procurado
+                      !modelo - Retorna o nome do modelo procurado
 
-                      !cod - Retorna o nome do modelo procurado
+                      !cod - Retorna o codigo do modelo procurado
 
 
 

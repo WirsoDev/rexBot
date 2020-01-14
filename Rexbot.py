@@ -32,6 +32,9 @@ async def on_ready():
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
 
+    channel_news = client.get_channel(585752207501033472)
+    await channel_news.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
+
 
 
 @client.command()
@@ -70,7 +73,7 @@ async def rev(ctx, *, rev):
             else:
                 await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
 
-    except:
+    except KeyError:
         await ctx.send(embed=Rexembed('Codido não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
 
 
@@ -147,7 +150,7 @@ async def nomes(ctx, *, types=''):
 
 @client.command()
 async def modelo(ctx, *, codigo):
-    '''Retorna o codigo do modelo procurado.
+    '''Retorna o nome do modelo procurado.
 
        Argumento obrigatótio -> Codigo do modelo
 
@@ -162,7 +165,7 @@ async def modelo(ctx, *, codigo):
 
 @client.command()
 async def cod(ctx, modelo):
-    '''Retorna o nome do modelo procurado.
+    '''Retorna o codigo do modelo procurado.
 
        Argumento obrigatótio -> Nome do modelo
 

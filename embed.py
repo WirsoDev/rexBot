@@ -6,7 +6,7 @@ import discord
 
 class Rexembed:
 
-    def __init__(self, title='', description='', footer='', colour=''):
+    def __init__(self, title='', description='', colour=''):
 
         self.title = title
         self.description = description
@@ -17,7 +17,6 @@ class Rexembed:
             self.colour = discord.Colour.green()
         elif colour == 'blue':
             self.colour = discord.Colour.blue()
-        self.footer = footer
 
 
     def normal_embed(self):
@@ -25,7 +24,6 @@ class Rexembed:
             title = self.title,
             description = self.description,
             colour = self.colour,
-            footer = self.footer
         )
 
         return rembed
