@@ -19,14 +19,6 @@ class Metalinj:
         return page
 
 
-    def bspage(self):
-        '''Return all html page'''
-
-        page = requests.get(self.url).text
-        bspage = bs(page, 'html.parser')
-
-        return bspage
-
 
     def newspagelink(self):
         '''Extract the news page'''
@@ -40,9 +32,8 @@ class Metalinj:
 
     
     def getnewshtml(self):
-        '''get full html news page'''
+        '''get full html news page - extract data'''
 
-        print('==========================================')
 
         link = self.newspagelink()
         page = requests.get(link).text
@@ -87,3 +78,5 @@ class Metalinj:
                 description_2.append(description[index])
                 index += 1
             count -= 1
+
+        
