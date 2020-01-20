@@ -4,19 +4,13 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import lxml
+import itertools
 
 
 class Metalinj:
-    def __init__(self, url):
-        self.url = url
+    def __init__(self):
+        self.url = url = 'https://metalinjection.net/category/upcoming-releases/heavy-new-releases'
 
-
-    def handshake(self):
-
-        '''Simple handshake test'''
-
-        page = requests.get(self.url)
-        return page
 
 
 
@@ -32,51 +26,79 @@ class Metalinj:
 
     
     def getnewshtml(self):
-        '''get full html news page - extract data'''
+        '''get full html news page'''
 
 
         link = self.newspagelink()
         page = requests.get(link).text
         bspage = bs(page, 'html.parser')
 
-        image = []
-        band_album = []
-        description = []
-        description_2 = []
-
         article_detail = bspage.find('div', class_='article-detail thearticlecontent')
 
-        # extract band + album name
+        return article_detail
 
-        for names in article_detail.findAll('h3'):
-            files = names.text
-            if files != 'Subscribe To Our Daily\xa0Dose\xa0Newsletter':
-                files = str(files.replace('\xa0', ''))
-                band_album.append(files)
+    
+    def bandsname(self):
+        '''Extract all bands names from page - returns a list'''
 
-        # extract image.url
-        
-        for images in article_detail.findAll('h3'):
+        bandsnamelist = []
+
+        for bands in self.getnewshtml().findAll('h3'):
+            bands = bands.text
+            if bands != 'Subscribe To Our Daily\xa0Dose\xa0Newsletter':
+                bands = str(bands.replace('\xa0', ''))
+                bandsnamelist.append(bands)
+
+        return bandsnamelist
+
+
+    def imagelink(self):
+
+        imagelinklist = []
+
+        for images in self.getnewshtml().findAll('h3'):
             extract = images.img
             try:
-                image.append(extract.get('src'))
+                imagelinklist.append(extract.get('src'))
             except AttributeError:
                 pass
 
-        # extract details | 3 itens by title
+        return imagelinklist
 
-        for detail in article_detail.findAll('p'):
-            details = detail.text
-            description.append(details)
+
+
+    def description(self):
+
+        descriptionlist = []
+
+        for details in self.getnewshtml().findAll('p'):
+            details = details.text
+            descriptionlist.append(details)
+
+        del descriptionlist[0:3]
         
-        del description[0:3]
+        return descriptionlist
 
-        count =len(band_album)
-        index = 0
-        while count >= 0:
-            for x in range(3):
-                description_2.append(description[index])
-                index += 1
-            count -= 1
 
+        
+if __name__ == "__main__":
+    bands = Metalinj()
+    
+    count = len(bands.bandsname()) - 1
+    index = 0
+    index_2 = 0
+    while count >= 0:
+        try:
+            print('')
+            print(bands.bandsname()[index])
+            print(bands.imagelink()[index])
+            print(bands.description()[index_2])
+            print(bands.description()[index_2 + 1])
+            index += 1
+            index_2 *= 3
+        except IndexError:
+            pass
+
+
+    
         
