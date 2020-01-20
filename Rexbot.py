@@ -17,6 +17,7 @@ import xlrd
 from tokan import tokan
 from db.database import aquinosusers, dbtecidos
 from external_api.names import Getnames
+from external_api.music import Metalinj
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main
@@ -44,6 +45,21 @@ async def version(ctx):
 
 
 #main commands
+
+@client.command()
+async def getmusic(ctx):
+    news = Metalinj()
+    count = len(news.bandsname())
+    index = 0
+    index_2 = 0
+    while count >= 0:
+        try:
+            await ctx.send(embed=Rexembed(news.bandsname()[index], f'{news.description()[index_2]}\n{news.description()[index_2 + 1]}', 'green').normal_embed())
+            index += 1
+            index_2 += 3
+            count -= 1
+        except IndexError:
+            pass
 
 
 @client.command()

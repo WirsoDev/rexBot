@@ -82,24 +82,4 @@ class Metalinj:
 
         
 if __name__ == "__main__":
-    bands = Metalinj()
-    
-    count = len(bands.bandsname()) - 1
-    index = 0
-    index_2 = 0
-    while count >= 0:
-        try:
-            print('')
-            print(bands.bandsname()[index])
-            print(bands.imagelink()[index])
-            print(bands.description()[index_2])
-            print(bands.description()[index_2 + 1])
-            index += 1
-            index_2 += 3
-            count -= 1
-        except IndexError:
-            pass
-
-
-    
-        
+    pass
