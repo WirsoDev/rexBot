@@ -7,6 +7,8 @@ Data base for:
 
 aquinosusers  = ['Wirso','Mrs. Jenni', 'Sandro']
 
+accepthours_metalapi = ['08', '09', '10']
+
 dbtecidos ={"C067":"Rosa",
 "C1013":"IMI CINZA",
 "C1121":"HOPPER KAKI (Beje)",
