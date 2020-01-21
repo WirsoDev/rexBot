@@ -8,14 +8,15 @@ __version__ = '1.2.0'
 __github__ = 'https://github.com/WirsoDev/rexBot'
 
 
-from discord.ext import commands
+from discord.ext import commands, tasks
 import discord
 import random
 import wikipedia
 import time
+from datetime import datetime
 import xlrd
 from tokan import tokan
-from db.database import aquinosusers, dbtecidos
+from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
@@ -29,6 +30,13 @@ client = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
+    #event Metalinjection news
+    time = datetime.now()
+    hour = str(time.time())[0:2]
+    week = datetime.weekday(datetime.now())
+    if week == 1 and hour in accepthours_metalapi:
+        getmusic.start()
+
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
@@ -36,6 +44,32 @@ async def on_ready():
     # channel_news = client.get_channel(655087818040672266)
     # await channel_news.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
 
+
+# events and tasks
+
+
+@tasks.loop(hours=10)
+async def getmusic():
+    channel = client.get_channel(463277986636890132)
+    news = Metalinj()
+    count = len(news.bandsname())
+    index = 0
+    index_2 = 0
+    while count >= 0:
+        try:
+            await channel.send(embed=Rexembed(
+                title=news.bandsname()[index],
+                image=news.imagelink()[index],
+                description= f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
+                colour='blue'
+            ).normal_embed())
+            await channel.send(news.youtube()[index])
+            index += 1
+            index_2 += 3
+            count -= 1
+        except IndexError:
+            pass
+            break
 
 
 @client.command()
@@ -45,21 +79,6 @@ async def version(ctx):
 
 
 #main commands
-
-@client.command()
-async def getmusic(ctx):
-    news = Metalinj()
-    count = len(news.bandsname())
-    index = 0
-    index_2 = 0
-    while count >= 0:
-        try:
-            await ctx.send(embed=Rexembed(news.bandsname()[index], f'{news.description()[index_2]}\n{news.description()[index_2 + 1]}', 'green').normal_embed())
-            index += 1
-            index_2 += 3
-            count -= 1
-        except IndexError:
-            pass
 
 
 @client.command()

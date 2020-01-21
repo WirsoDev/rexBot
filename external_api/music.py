@@ -9,8 +9,7 @@ import itertools
 
 class Metalinj:
     def __init__(self):
-        self.url = url = 'https://metalinjection.net/category/upcoming-releases/heavy-new-releases'
-
+        self.url = 'https://metalinjection.net/category/upcoming-releases/heavy-new-releases'
 
 
 
@@ -78,6 +77,19 @@ class Metalinj:
         del descriptionlist[0:3]
         
         return descriptionlist
+
+    
+    def youtube(self):
+
+        youtubelist = []
+
+        for links in self.getnewshtml().findAll('iframe'):
+            links = links.get('src')
+            transformedlinks = str(links.replace('embed/', 'watch?v='))
+            youtubelist.append(transformedlinks)
+
+
+        return youtubelist
 
 
         
