@@ -4,7 +4,7 @@
 __title__ = 'rexbot'
 __author__ = 'Wirso'
 __copyright__ = 'Copyright 2020 wirso'
-__version__ = '1.2.0'
+__version__ = '1.2.0 - hotfix 1'
 __github__ = 'https://github.com/WirsoDev/rexBot'
 
 
@@ -21,7 +21,7 @@ from external_api.names import Getnames
 from external_api.music import Metalinj
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
 from embed import Rexembed
-from docs.news_v1_2 import title_main, descrição_main
+from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
 
 # init cliente
@@ -34,15 +34,21 @@ async def on_ready():
     time = datetime.now()
     hour = str(time.time())[0:2]
     week = datetime.weekday(datetime.now())
-    if week == 1 and hour in accepthours_metalapi:
+    if week == 0 and hour in accepthours_metalapi:
         getmusic.start()
 
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
 
-    # channel_news = client.get_channel(655087818040672266)
-    # await channel_news.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
+    # channel_news = client.get_channel(669219347339673630)
+    # await channel_news.send(embed=Rexembed(
+    #    title=title_hf1,
+    #   description=descrição_htf1,
+    #   footer=footer_ht1,
+    #   thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/669229075088277517/updates-01-01.png',
+    #   colour='blue'
+    #).normal_embed())
 
 
 # events and tasks
