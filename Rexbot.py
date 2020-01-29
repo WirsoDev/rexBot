@@ -56,7 +56,7 @@ async def on_ready():
 
 @tasks.loop(hours=10)
 async def getmusic():
-    channel = client.get_channel(463277986636890132)
+    channel = client.get_channel(585752207501033472)
     news = Metalinj()
     count = len(news.bandsname())
     index = 0
@@ -76,6 +76,7 @@ async def getmusic():
         except IndexError:
             pass
             break
+    await channel.send('@everyone novidades da semana!')
 
 
 @client.command()
