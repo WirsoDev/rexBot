@@ -31,12 +31,7 @@ client = commands.Bot(command_prefix='!')
 @client.event
 async def on_ready():
     #event Metalinjection news
-    time = datetime.now()
-    hour = str(time.time())[0:2]
-    week = datetime.weekday(datetime.now())
-    if week == 0 and hour in accepthours_metalapi:
-        getmusic.start()
-
+    getmusic.start()
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
@@ -54,29 +49,33 @@ async def on_ready():
 # events and tasks
 
 
-@tasks.loop(hours=10)
+@tasks.loop(hours=5)
 async def getmusic():
-    channel = client.get_channel(585752207501033472)
-    news = Metalinj()
-    count = len(news.bandsname())
-    index = 0
-    index_2 = 0
-    while count >= 0:
-        try:
-            await channel.send(embed=Rexembed(
-                title=news.bandsname()[index],
-                image=news.imagelink()[index],
-                description= f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
-                colour='blue'
-            ).normal_embed())
-            await channel.send(news.youtube()[index])
-            index += 1
-            index_2 += 3
-            count -= 1
-        except IndexError:
-            pass
-            break
-    await channel.send('@everyone novidades da semana!')
+    time = datetime.now()
+    hour = str(time.time()[0:2])
+    week = datetime.weekday(datetime.now())
+    if week == 0 and hour in accepthours_metalapi:
+        channel = client.get_channel(585752207501033472)
+        news = Metalinj()
+        count = len(news.bandsname())
+        index = 0
+        index_2 = 0
+        while count >= 0:
+            try:
+                await channel.send(embed=Rexembed(
+                    title=news.bandsname()[index],
+                    image=news.imagelink()[index],
+                    description= f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
+                    colour='blue'
+                ).normal_embed())
+                await channel.send(news.youtube()[index])
+                index += 1
+                index_2 += 3
+                count -= 1
+            except IndexError:
+                pass
+                break
+        await channel.send('@everyone novidades da semana!')
 
 
 @client.command()
