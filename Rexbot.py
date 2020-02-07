@@ -53,7 +53,7 @@ async def on_ready():
 async def getmusic():
     time = datetime.now()
     hour = str(time.time())[0:2]
-    week = datetime.datetime.weekday(time)
+    week = datetime.weekday(time)
     if week == 0 and hour in accepthours_metalapi:
         channel = client.get_channel(585752207501033472)
         news = Metalinj()
