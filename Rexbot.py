@@ -76,6 +76,9 @@ async def getmusic():
                 pass
                 break
         await channel.send('@everyone novidades da semana!')
+    else:
+        pass
+
 
 
 @client.command()
