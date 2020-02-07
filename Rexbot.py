@@ -51,7 +51,7 @@ async def on_ready():
 
 @tasks.loop(hours=5)
 async def getmusic():
-    time = datetime.datetime.now()
+    time = datetime.now()
     hour = str(time.time())[0:2]
     week = datetime.datetime.weekday(time)
     if week == 0 and hour in accepthours_metalapi:
