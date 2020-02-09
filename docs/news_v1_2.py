@@ -50,10 +50,16 @@ title_hf1 = 'Olá :)\n'
 
 descrição_htf1 ='''
                 
-                1.2.0 - hotfix 1
+                1.2.0 - hotfix 1.01
 
                 Novidades!
 
+                #commands
+                !gamas - Agora as gamas de revestimentos
+                         são enviadas por mensagem privada.
+
+
+                #events
                 API/RSS music:
                 Todas as semanas, no canal #music,
                 "last drops" do mundo do metal! :metal:
@@ -64,4 +70,4 @@ descrição_htf1 ='''
                 
               '''
 
-footer_ht1 = 'Rexbot 2020_1.2.0 - hotfix 1 Source code at: https://github.com/WirsoDev/rexBot'
+footer_ht1 = 'Rexbot 2020_1.2.0 - hotfix 1.01 Source code at: https://github.com/WirsoDev/rexBot'

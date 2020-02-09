@@ -38,7 +38,7 @@ async def on_ready():
 
     # channel_news = client.get_channel(669219347339673630)
     # await channel_news.send(embed=Rexembed(
-    #    title=title_hf1,
+    #   title=title_hf1,
     #   description=descrição_htf1,
     #   footer=footer_ht1,
     #   thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/669229075088277517/updates-01-01.png',
@@ -135,9 +135,9 @@ async def gama(ctx, *, rev):
             await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
         else:
             for itens in revestimento.gamas():
-                await ctx.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
+                await ctx.author.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
 
-            await ctx.send(embed=Rexembed('Done!!', colour='green').normal_embed())
+            await ctx.send(embed=Rexembed(title='Done!!', colour='green', description='Revestimentos enviados por MP! ;)').normal_embed())
     
     except KeyError:
         await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
