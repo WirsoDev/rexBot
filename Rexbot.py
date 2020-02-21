@@ -55,6 +55,7 @@ async def getmusic():
     hour = str(time.time())[0:2]
     week = datetime.weekday(time)
     if week == 0 and hour in accepthours_metalapi:
+        print('run getmusic - news on discord')
         channel = client.get_channel(585752207501033472)
         news = Metalinj()
         count = len(news.bandsname())
@@ -77,6 +78,7 @@ async def getmusic():
                 break
         await channel.send('@everyone novidades da semana!')
     else:
+        print('Run getmusic - nothing to post')
         pass
 
 
@@ -103,6 +105,7 @@ async def rev(ctx, *, rev):
        Exemplo: !rev c1758 -> Zenith 606 ...
        
        '''
+    print(f'Run !rev with {rev} by {ctx.author}')
     rev = rev.strip().upper()
     try:
         tecido = Dict_tecidos(rev)
@@ -129,6 +132,7 @@ async def gama(ctx, *, rev):
 
        Exemplo: !gama boston -> Boston Black - G0601, Boston SKY - G0621, ...
     '''
+    print(f'Run !gama with {rev} by {ctx.author}')
     try:
         revestimento = Dict_tecidos(rev)
         if len(revestimento.gamas()) == 0:
@@ -171,6 +175,7 @@ async def genpass(ctx, *, givenname=''):
 
     Boa sorte a decorar isto! :D'''
 
+    print(f'Run !genpass by {ctx.author}')
     password = aqpassgen(ctx)
     await ctx.author.send(embed=Rexembed(f'Pass gerada:', f'{password}', colour='green').normal_embed())
     time.sleep(0.2)
@@ -199,6 +204,7 @@ async def modelo(ctx, *, codigo):
 
        Exemplo: !modelo maxx -> 1017
     '''
+    print(f'Run !modelo with {codigo} by {ctx.author}')
     try:
         modelo = Dict_modelos(codigo)
         await ctx.send(embed=Rexembed(f'{modelo.nome()}', colour='green').normal_embed())
@@ -214,6 +220,7 @@ async def cod(ctx, modelo):
 
        Exemplo: !modelo 1017 -> maxx
     '''
+    print(f'Run !modelo with {modelo} by {ctx.author}')
     try:
         codigo = Dict_modelos(modelo)
         await ctx.send(embed=Rexembed(f'{codigo.codigo()}', colour='green').normal_embed())
