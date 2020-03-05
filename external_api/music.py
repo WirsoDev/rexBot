@@ -104,7 +104,6 @@ class Metalinj:
         file = open(r'external_api/logs/metalinj_rsscontroler.txt', 'r')
         controller = file.read()
         x = self.bandsname()[0]
-        print(controller)
         return x == controller
 
 
