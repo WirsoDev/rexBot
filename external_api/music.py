@@ -1,5 +1,3 @@
-# test webscrapping metalinjection
-# Handling return/output! 
 
 import requests
 from bs4 import BeautifulSoup as bs
@@ -91,7 +89,29 @@ class Metalinj:
 
         return youtubelist
 
+    def drooping(self):
+        '''Return the other droops in music (also dropping)'''
 
+        droopinglist = []
+
+        for x in self.getnewshtml().findAll('li'):
+            droopinglist.append(x.text)
         
+        return droopinglist
+
+    
+    def controller(self):
+        file = open(r'external_api/logs/metalinj_rsscontroler.txt', 'r')
+        controller = file.read()
+        x = self.bandsname()[0]
+        print(controller)
+        return x == controller
+
+
+
 if __name__ == "__main__":
     pass
+
+
+
+

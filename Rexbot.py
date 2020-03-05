@@ -30,8 +30,10 @@ client = commands.Bot(command_prefix='!')
 
 @client.event
 async def on_ready():
+
     #event Metalinjection news
     getmusic.start()
+
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
@@ -49,18 +51,20 @@ async def on_ready():
 # events and tasks
 
 
-@tasks.loop(hours=5)
+@tasks.loop(hours=1)
 async def getmusic():
-    time = datetime.now()
-    hour = str(time.time())[0:2]
-    week = datetime.weekday(time)
-    if week == 0 and hour in accepthours_metalapi:
-        print('run getmusic - news on discord')
-        channel = client.get_channel(585752207501033472)
-        news = Metalinj()
+
+    channel = client.get_channel(585752207501033472)
+    news = Metalinj()
+    controller = news.controller()
+
+    if controller == False:
+
+        print('Run get music - news on discord')
         count = len(news.bandsname())
         index = 0
         index_2 = 0
+        
         while count >= 0:
             try:
                 await channel.send(embed=Rexembed(
@@ -76,7 +80,18 @@ async def getmusic():
             except IndexError:
                 pass
                 break
+
+        await channel.send(embed=Rexembed(title='Also dropping:',
+        description=f'{news.drooping()[0]}\n{news.drooping()[1]}\n{news.drooping()[2]}\n{news.drooping()[3]}\n{news.drooping()[4]}\n{news.drooping()[5]}', colour='blue').normal_embed())
+        print('news done!')
         await channel.send('@everyone novidades da semana!')
+
+        # overwrite controller file
+        write = open(r'external_api/logs/metalinj_rsscontroler.txt', 'w')
+        write.write(news.bandsname()[0])
+        write.close
+        print(f'The controller was update! value = {news.bandsname()[0]}')
+
     else:
         print('Run getmusic - nothing to post')
         pass

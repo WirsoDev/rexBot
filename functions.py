@@ -192,9 +192,4 @@ def rexgifs():
 
 
 if __name__ == "__main__":
-    revestimento = input('rev: ')
-    gama = Dict_tecidos(revestimento)
-    print(gama.gamas())
-
-
-
+    pass
