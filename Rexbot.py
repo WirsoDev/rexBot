@@ -19,7 +19,7 @@ from tokan import tokan
 from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
-from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos
+from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
@@ -105,6 +105,15 @@ async def version(ctx):
 
 
 #main commands
+
+@client.command()
+async def size(ctx, *, c_arg):
+    new_input = str(c_arg).split(',')
+    path = new_input[0]
+    size = int(new_input[1])
+    await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
+
+
 
 
 @client.command()
