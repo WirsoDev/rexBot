@@ -11,26 +11,63 @@ from PIL import Image
 # datetime functions
 
 def resize_img(path, size):
+    files_exten = [
+        'jpg',
+        'JPG',
+        'JPEG',
+        'png',
+        'tiff',
+        'tif',
+        'TIFF',
+        'PNG',
+    ]
 
-    path.replace('\\', '/')
+    print(f'Path to search: {path}')
 
-    files = os.listdir(path)
+    files = []
+    for file in os.listdir(path):
+        print(file)
+        x = file.split('.')
+        if len(x) > 1:
+            if x[1] in files_exten:
+                files.append(file)
+
+    print(files)
+    # files = os.listdir(path)
+
+    extentions = []
+
+    for ext in files:
+        if '.' in ext:
+            extention = ext.split('.')
+            extentions.append(extention[1])
+
+    print(f'{extentions} find!')
+
     if os.path.isdir(path + '/resized_to_' + str(size) + 'px'):
         pass
     else:
         os.mkdir(path + '/resized_to_' + str(size) + 'px')
-
+    
     count = 0
     for x in files:
-        dir_img = path + '/' + files[count]
-        img = Image.open(dir_img)
-        new_size_y = int(size / (img.size[0] / img.size[1]))
-        rezized = img.resize((size, new_size_y))
-        save_file = path + '/resized_to_' + str(size) + 'px/' + files[count]
-        rezized.save(save_file)
-        print(f'image {files[count]} resized!')
-        count += 1
-    
+
+        if extentions[count] in files_exten:
+            dir_img = path + '/' + files[count]
+            img = Image.open(dir_img)
+            img = img.convert('RGB')
+            new_size_y = int(size) / (int(img.size[0]) / int(img.size[1]))
+            rezized = img.resize((size, int(new_size_y)), Image.ANTIALIAS)
+            new_name = files[count].split('.')
+            save_file = path + '/resized_to_' + str(size) + 'px/' + str(new_name[0]) + '.jpeg'
+            rezized.save(save_file, 'JPEG', quality=90)
+            print(f'image {files[count]} resized!')
+            count += 1
+        
+        else:
+            print(f'{x} not rezized')
+            count += 1
+
     return count
         
         
