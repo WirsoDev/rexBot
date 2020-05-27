@@ -4,7 +4,7 @@
 __title__ = 'rexbot'
 __author__ = 'Wirso'
 __copyright__ = 'Copyright 2020 wirso'
-__version__ = '1.2.0 - hotfix 1'
+__version__ = '1.3.0 - hotfix 1'
 __github__ = 'https://github.com/WirsoDev/rexBot'
 
 
@@ -108,10 +108,26 @@ async def version(ctx):
 
 @client.command()
 async def size(ctx, *, c_arg):
+    '''Redimensiona uma lista de imagens para o tamanho
+       que pretendemos.
+
+       Argumentos obrigatorios -> caminho para a pasta na rede + tamanho em px
+
+       Comando: !size <caminho na rede>, <valor>
+
+       Ex: !size \\STORAGE\Creative\Projetos\SHOWROOM_PRIVE\CAMPANHA_2\FICHEIROS_FINAIS\ANDREIA\FOTOS, 1000
+
+       ATENÇÃO: Depois do caminho usar a , e depois o valor para o tamanho pretendido
+    
+    '''
     new_input = str(c_arg).split(',')
     path = new_input[0]
     size = int(new_input[1])
-    await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
+    await ctx.send(embed=Rexembed('Processing...', colour='Blue').normal_embed())
+    try:
+        await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
+    except:
+        await ctx.send(embed=Rexembed('Hey, something go wrong!', colour='Red').normal_embed())
 
 
 
