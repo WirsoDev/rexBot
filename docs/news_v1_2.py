@@ -2,7 +2,7 @@
 #main intro
 title_main = 'Olá :)\n '
 
-descrição_main = f'''Versão 1.2.0
+descrição_main = f'''Versão 1.3.0
                     
                     
                     . Correcção de bugs;
@@ -25,6 +25,8 @@ descrição_main = f'''Versão 1.2.0
                       !modelo - Retorna o nome do modelo procurado
 
                       !cod - Retorna o codigo do modelo procurado
+
+                      !size - Converte uma lista de imagens com o tamanho que pretenderes 
 
 
                     Tasks/events:
