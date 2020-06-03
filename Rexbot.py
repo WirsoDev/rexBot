@@ -19,7 +19,7 @@ from tokan import tokan
 from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
-from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img
+from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
@@ -266,6 +266,11 @@ async def cod(ctx, modelo):
         await ctx.send(embed=Rexembed(f'{codigo.codigo()}', colour='green').normal_embed())
     except KeyError:
         await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
+
+@client.command()
+async def fact(ctx):
+    '''Return a norris fact!'''
+    await ctx.send(embed=Rexembed(description=facts(), colour='green').normal_embed())
 
 
 # fun stuff
