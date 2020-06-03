@@ -270,7 +270,7 @@ async def cod(ctx, modelo):
 @client.command()
 async def fact(ctx):
     '''Return a norris fact!'''
-    await ctx.send(embed=Rexembed(description=facts(), colour='green').normal_embed())
+    await ctx.send(embed=Rexembed(title='Norris Fact:' ,description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/717759451343486996/images.jpg').normal_embed())
 
 
 # fun stuff
