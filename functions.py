@@ -50,14 +50,10 @@ def resize_img(path, size):
 
     files = []
     for file in os.listdir(path):
-        print(file)
         x = file.split('.')
         if len(x) > 1:
             if x[1] in files_exten:
                 files.append(file)
-
-    print(files)
-    # files = os.listdir(path)
 
     extentions = []
 
@@ -66,7 +62,7 @@ def resize_img(path, size):
             extention = ext.split('.')
             extentions.append(extention[1])
 
-    print(f'{extentions} find!')
+    print(f'{len(extentions)} find!')
 
     if os.path.isdir(path + '/resized_to_' + str(size) + 'px'):
         pass

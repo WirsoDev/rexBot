@@ -161,7 +161,7 @@ async def rev(ctx, *, rev):
                 await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
 
     except KeyError:
-        await ctx.send(embed=Rexembed('Codido não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
+        await ctx.send(embed=Rexembed('Codigo não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
 
 
 @client.command()
@@ -270,6 +270,7 @@ async def cod(ctx, modelo):
 @client.command()
 async def fact(ctx):
     '''Return a norris fact!'''
+    print(f'Run a fact by {ctx.author}')
     await ctx.send(embed=Rexembed(title='Norris Fact:' ,description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/717759451343486996/images.jpg').normal_embed())
 
 
