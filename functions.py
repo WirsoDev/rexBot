@@ -4,14 +4,11 @@ import string
 from db.database import aquinosusers
 import xlrd
 import os
-from PIL import Image
-
+from PIL import Image, ImageCms
+import io
 
 
 # datetime functions
-
-
-        
 
 def weeknum():
 
@@ -35,6 +32,8 @@ def find_weeknum(year, mon, day):
 # main app's
 
 def resize_img(path, size):
+
+
     files_exten = [
         'jpg',
         'JPG',
@@ -68,6 +67,7 @@ def resize_img(path, size):
         pass
     else:
         os.mkdir(path + '/resized_to_' + str(size) + 'px')
+
     
     count = 0
     for x in files:
@@ -75,9 +75,23 @@ def resize_img(path, size):
         if extentions[count] in files_exten:
             dir_img = path + '/' + files[count]
             img = Image.open(dir_img)
-            img = img.convert('RGB')
+
+            if img.mode == 'RGBA':
+                img = img.convert('RGB')
+            
+            icc = img.info.get('icc_profile', '')
+
+            print(icc)
+
+            if icc:
+                handler = io.BytesIO(icc)
+                src_profile = ImageCms.ImageCmsProfile(handler)
+                dst_profile = ImageCms.createProfile('sRGB')
+
+                img = ImageCms.profileToProfile(img, src_profile, dst_profile)
+
             new_size_y = int(size) / (int(img.size[0]) / int(img.size[1]))
-            rezized = img.resize((size, int(new_size_y)), Image.ANTIALIAS)
+            rezized = img.resize((size, int(new_size_y)), Image.LANCZOS)
             new_name = files[count].split('.')
             save_file = path + '/resized_to_' + str(size) + 'px/' + str(new_name[0]) + '.jpeg'
             rezized.save(save_file, 'JPEG', quality=90)

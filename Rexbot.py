@@ -125,7 +125,7 @@ async def size(ctx, *, c_arg):
     size = int(new_input[1])
     await ctx.send(embed=Rexembed('Processing...', colour='Blue').normal_embed())
     try:
-        await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
+     await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
     except:
         await ctx.send(embed=Rexembed('Hey, something go wrong!', colour='Red').normal_embed())
 
