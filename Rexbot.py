@@ -50,7 +50,6 @@ async def on_ready():
 
 # events and tasks
 
-
 @tasks.loop(hours=1)
 async def getmusic():
 
