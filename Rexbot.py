@@ -28,6 +28,14 @@ from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_
 client = commands.Bot(command_prefix='!')
 
 
+# channels
+channels = {
+    'music': 463277986636890132,
+    'rex': 585752207501033472,
+    'rexnews' : 669219347339673630,
+}
+
+
 @client.event
 async def on_ready():
 
@@ -53,7 +61,7 @@ async def on_ready():
 @tasks.loop(hours=1)
 async def getmusic():
 
-    channel = client.get_channel(585752207501033472)
+    channel = client.get_channel(channels['music'])
     news = Metalinj()
     controller = news.controller()
 
