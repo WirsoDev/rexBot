@@ -81,8 +81,6 @@ def resize_img(path, size):
             
             icc = img.info.get('icc_profile', '')
 
-            print(icc)
-
             if icc:
                 handler = io.BytesIO(icc)
                 src_profile = ImageCms.ImageCmsProfile(handler)

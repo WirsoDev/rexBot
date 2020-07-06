@@ -19,6 +19,7 @@ from tokan import tokan
 from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
+from external_api.covid import CovidData
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
@@ -112,6 +113,24 @@ async def version(ctx):
 
 
 #main commands
+
+@client.command()
+async def covid(ctx):
+    '''Retorna o estado da evolução do Corona Virus
+    em portugal
+    '''
+    data = CovidData().data()
+    await ctx.send(embed=Rexembed(
+        title= f'Corona Virus Portugal',
+        description=f'''
+        **Novos casos** - {data["confirmados_novos"]}
+        **Total de casos** - {data["confirmados"]}
+        **Total de obitos** - {data["obitos"]}
+        ''',
+        footer=f'dados da dgs | {data["data"]}',
+        colour='Red'
+    ).normal_embed())
+
 
 @client.command()
 async def size(ctx, *, c_arg):
