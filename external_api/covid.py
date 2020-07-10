@@ -15,6 +15,7 @@ class CovidData:
 
         data = self.connection().json()
         return data
-            
 
-        
+    def controler(self):
+        file = open(r'external_api/logs/covid.txt', 'r')
+        return file.read() == self.data()['data']

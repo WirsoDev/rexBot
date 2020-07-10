@@ -34,6 +34,7 @@ channels = {
     'music': 463277986636890132,
     'rex': 585752207501033472,
     'rexnews' : 669219347339673630,
+    'zezign' : 655087818040672266,
 }
 
 
@@ -42,6 +43,7 @@ async def on_ready():
 
     #event Metalinjection news
     getmusic.start()
+    covid.start()
 
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
@@ -58,6 +60,35 @@ async def on_ready():
 
 
 # events and tasks
+
+@tasks.loop(hours=1)
+async def covid():
+    '''Retorna o estado da evolução do Corona Virus
+    em portugal
+    '''
+    data = CovidData().data()
+    controller = CovidData().controler()
+    channel = client.get_channel(channels['zezign'])
+    if controller == False:
+        await channel.send(embed=Rexembed(
+            title= f'Corona Virus Portugal',
+            description=f'''
+            **Novos casos** - {data["confirmados_novos"]}
+            **Total de casos** - {data["confirmados"]}
+            **Total de obitos** - {data["obitos"]}
+            ''',
+            footer=f'dados da dgs | {data["data"]}',
+            colour='Red'
+        ).normal_embed())
+
+        # update controller file
+        file = open(r'external_api/logs/covid.txt', 'w')
+        file.write(data['data'])
+        file.close()
+        print('Covid controlor update! data on discord')
+    else:
+        print('Run covid - no new data')
+
 
 @tasks.loop(hours=1)
 async def getmusic():
@@ -113,23 +144,6 @@ async def version(ctx):
 
 
 #main commands
-
-@client.command()
-async def covid(ctx):
-    '''Retorna o estado da evolução do Corona Virus
-    em portugal
-    '''
-    data = CovidData().data()
-    await ctx.send(embed=Rexembed(
-        title= f'Corona Virus Portugal',
-        description=f'''
-        **Novos casos** - {data["confirmados_novos"]}
-        **Total de casos** - {data["confirmados"]}
-        **Total de obitos** - {data["obitos"]}
-        ''',
-        footer=f'dados da dgs | {data["data"]}',
-        colour='Red'
-    ).normal_embed())
 
 
 @client.command()
