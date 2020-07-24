@@ -145,6 +145,37 @@ async def version(ctx):
 
 #main commands
 
+@client.command()
+async def weekcovid(ctx):
+    values = CovidData().graph()
+
+    if values:
+        # return the data!!
+        # if day of week is sat / run this function until data == True 
+
+        #gen values
+        ratio = 15
+        val1 = '-' * int(values[0] / ratio)
+        val2 = '-' * int(values[1] / ratio)
+        val3 = '-' * int(values[2] / ratio)
+        val4 = '-' * int(values[3] / ratio)
+        val5 = '-' * int(values[4] / ratio)
+        val6 = '-' * int(values[5] / ratio)
+        #val7 = '-' * int(values[6] / ratio)
+        val7 = 260 / ratio
+
+        msg_description = f'''
+        S : {val1} {values[0]}
+        D : {val2} {values[1]}
+        S : {val3} {values[2]}
+        T : {val4} {values[3]}
+        Q : {val5} {values[4]}
+        Q : {val6} {values[5]}
+        S : {val7} {val7}
+    '''
+
+        await ctx.send(embed=Rexembed(title='Weekly Corona Graph', description=msg_description, colour='Red', footer='DSG DATA - WEEK').normal_embed())
+
 
 @client.command()
 async def size(ctx, *, c_arg):
