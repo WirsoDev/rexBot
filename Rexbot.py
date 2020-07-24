@@ -25,6 +25,7 @@ from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
 
+
 # init cliente
 client = commands.Bot(command_prefix='!')
 
@@ -148,6 +149,9 @@ async def version(ctx):
 @client.command()
 async def weekcovid(ctx):
     values = CovidData().graph()
+
+    #get number of the week
+    today = datetime.date.today()
 
     if values:
         # return the data!!
