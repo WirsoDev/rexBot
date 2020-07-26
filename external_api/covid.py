@@ -29,9 +29,7 @@ class CovidData:
         today = datetime.date.today()
         today = str(today).split('-')
         dateFinal = f'{int(today[2]) - 1}-{today[1]}-{today[0]}'
-        dateInit = f'{int(today[2]) - 7}-{today[1]}-{today[0]}'
-
-        print(dateInit, dateFinal)
+        dateInit = f'{int(today[2]) - 8}-{today[1]}-{today[0]}'
 
         url = f'https://covid19-api.vost.pt/Requests/get_entry/{dateInit}_until_{dateFinal}'
         try:

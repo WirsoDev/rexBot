@@ -20,7 +20,7 @@ from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
 from external_api.covid import CovidData
-from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts
+from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts, weekday
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
@@ -44,7 +44,10 @@ async def on_ready():
 
     #event Metalinjection news
     getmusic.start()
+    weekcovid.start()
     covid.start()
+    
+
 
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
@@ -137,6 +140,48 @@ async def getmusic():
         pass
 
 
+@tasks.loop(seconds=60.0)
+async def weekcovid():
+    channel = client.get_channel(channels['zezign'])
+    values = CovidData().graph()
+
+    #get number of the week
+    # return the data!!
+    # if day of week is sat / run this function until data == True
+    weekDay = weekday()
+    now = datetime.now()
+    timeController = f'{now.hour}:{now.minute}'
+    if weekDay == 6 and timeController == '1:9':
+    
+        if values:
+            #gen values
+            ratio = 5
+            val1 = '.' * int(values[0] / ratio)
+            val2 = '.' * int(values[1] / ratio)
+            val3 = '.' * int(values[2] / ratio)
+            val4 = '.' * int(values[3] / ratio)
+            val5 = '.' * int(values[4] / ratio)
+            val6 = '.' * int(values[5] / ratio)
+            val7 = '.' * int(values[6] / ratio)
+
+            msg_description = f'''
+            ...
+            Sab  {val1} {values[0]}
+            Dom  {val2} {values[1]}
+            Seg  {val3} {values[2]}
+            Ter  {val4} {values[3]}
+            Qua  {val5} {values[4]}
+            Qui  {val6} {values[5]}
+            Sex  {val7} {values[6]}
+        '''
+
+            await channel.send(embed=Rexembed(title='Weekly Corona Virus Review', 
+                                          description=msg_description,
+                                          colour='Red', footer=f'Total {sum(values)}').normal_embed())
+            
+            print('run coronaGraph - data in discord')
+            time.sleep(60)
+
 
 @client.command()
 async def version(ctx):
@@ -145,40 +190,6 @@ async def version(ctx):
 
 
 #main commands
-
-@client.command()
-async def weekcovid(ctx):
-    values = CovidData().graph()
-
-    #get number of the week
-    today = datetime.date.today()
-
-    if values:
-        # return the data!!
-        # if day of week is sat / run this function until data == True 
-
-        #gen values
-        ratio = 15
-        val1 = '-' * int(values[0] / ratio)
-        val2 = '-' * int(values[1] / ratio)
-        val3 = '-' * int(values[2] / ratio)
-        val4 = '-' * int(values[3] / ratio)
-        val5 = '-' * int(values[4] / ratio)
-        val6 = '-' * int(values[5] / ratio)
-        #val7 = '-' * int(values[6] / ratio)
-        val7 = 260 / ratio
-
-        msg_description = f'''
-        S : {val1} {values[0]}
-        D : {val2} {values[1]}
-        S : {val3} {values[2]}
-        T : {val4} {values[3]}
-        Q : {val5} {values[4]}
-        Q : {val6} {values[5]}
-        S : {val7} {val7}
-    '''
-
-        await ctx.send(embed=Rexembed(title='Weekly Corona Graph', description=msg_description, colour='Red', footer='DSG DATA - WEEK').normal_embed())
 
 
 @client.command()

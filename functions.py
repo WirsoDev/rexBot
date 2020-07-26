@@ -17,6 +17,10 @@ def weeknum():
     date = datetime.date.today().isocalendar()[1]
     return date
 
+def weekday():
+
+    return datetime.datetime.today().weekday()
+
 
 def find_weeknum(year, mon, day):
     '''
