@@ -11,7 +11,6 @@ __github__ = 'https://github.com/WirsoDev/rexBot'
 from discord.ext import commands, tasks
 import discord
 import random
-import wikipedia
 import time
 from datetime import datetime
 import xlrd
