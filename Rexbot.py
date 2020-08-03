@@ -141,7 +141,7 @@ async def getmusic():
 
 @tasks.loop(seconds=60.0)
 async def weekcovid():
-    channel = client.get_channel(channels['rex'])
+    channel = client.get_channel(channels['zezign'])
     weekDay = weekday()
     now = datetime.now()
     timeController = f'{now.hour}:{now.minute}'
