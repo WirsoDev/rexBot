@@ -141,16 +141,13 @@ async def getmusic():
 
 @tasks.loop(seconds=60.0)
 async def weekcovid():
-    channel = client.get_channel(channels['zezign'])
-    values = CovidData().graph()
-
-    #get number of the week
-    # return the data!!
-    # if day of week is sat / run this function until data == True
+    channel = client.get_channel(channels['rex'])
     weekDay = weekday()
     now = datetime.now()
     timeController = f'{now.hour}:{now.minute}'
     if weekDay == 6 and timeController == '1:9':
+
+        values = CovidData().graph()
     
         if values:
             #gen values
