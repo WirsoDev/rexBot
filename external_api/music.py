@@ -9,32 +9,28 @@ class Metalinj:
     def __init__(self):
         self.url = 'https://metalinjection.net/category/upcoming-releases/heavy-new-releases'
 
-
-
     def newspagelink(self):
         '''Extract the news page'''
 
         page = requests.get(self.url).text
         bspage = bs(page, 'html.parser')
 
-        newspage = bspage.find('h2', class_='title')
+        newspage = bspage.find('h2', class_='zox-art-title')
 
         return newspage.a['href']
 
-    
     def getnewshtml(self):
         '''get full html news page'''
-
 
         link = self.newspagelink()
         page = requests.get(link).text
         bspage = bs(page, 'html.parser')
 
-        article_detail = bspage.find('div', class_='article-detail thearticlecontent')
+        article_detail = bspage.find(
+            'div', class_='article-detail thearticlecontent')
 
         return article_detail
 
-    
     def bandsname(self):
         '''Extract all bands names from page - returns a list'''
 
@@ -47,7 +43,6 @@ class Metalinj:
                 bandsnamelist.append(bands)
 
         return bandsnamelist
-
 
     def imagelink(self):
 
@@ -62,8 +57,6 @@ class Metalinj:
 
         return imagelinklist
 
-
-
     def description(self):
 
         descriptionlist = []
@@ -73,10 +66,9 @@ class Metalinj:
             descriptionlist.append(details)
 
         del descriptionlist[0:3]
-        
+
         return descriptionlist
 
-    
     def youtube(self):
 
         youtubelist = []
@@ -85,7 +77,6 @@ class Metalinj:
             links = links.get('src')
             transformedlinks = str(links.replace('embed/', 'watch?v='))
             youtubelist.append(transformedlinks)
-
 
         return youtubelist
 
@@ -96,10 +87,9 @@ class Metalinj:
 
         for x in self.getnewshtml().findAll('li'):
             droopinglist.append(x.text)
-        
+
         return droopinglist
 
-    
     def controller(self):
         file = open(r'external_api/logs/metalinj_rsscontroler.txt', 'r')
         controller = file.read()
@@ -107,10 +97,5 @@ class Metalinj:
         return x == controller
 
 
-
 if __name__ == "__main__":
     pass
-
-
-
-

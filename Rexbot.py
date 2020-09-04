@@ -1,4 +1,4 @@
-# main program 
+# main program
 
 
 __title__ = 'rexbot'
@@ -24,7 +24,6 @@ from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 
 
-
 # init cliente
 client = commands.Bot(command_prefix='!')
 
@@ -33,20 +32,17 @@ client = commands.Bot(command_prefix='!')
 channels = {
     'music': 463277986636890132,
     'rex': 585752207501033472,
-    'rexnews' : 669219347339673630,
-    'zezign' : 655087818040672266,
+    'rexnews': 669219347339673630,
+    'zezign': 655087818040672266,
 }
 
 
 @client.event
 async def on_ready():
 
-    #event Metalinjection news
-    getmusic.start()
+    # getmusic.start()
     weekcovid.start()
     covid.start()
-    
-
 
     print('='*80)
     print(f'O rex esta online!! At {time.ctime()}')
@@ -59,7 +55,7 @@ async def on_ready():
     #   footer=footer_ht1,
     #   thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/669229075088277517/updates-01-01.png',
     #   colour='blue'
-    #).normal_embed())
+    # ).normal_embed())
 
 
 # events and tasks
@@ -74,7 +70,7 @@ async def covid():
     channel = client.get_channel(channels['zezign'])
     if controller == False:
         await channel.send(embed=Rexembed(
-            title= f'Corona Virus Portugal',
+            title=f'Corona Virus Portugal',
             description=f'''
             **Novos casos** - {data["confirmados_novos"]}
             **Total de casos** - {data["confirmados"]}
@@ -106,13 +102,13 @@ async def getmusic():
         count = len(news.bandsname())
         index = 0
         index_2 = 0
-        
+
         while count >= 0:
             try:
                 await channel.send(embed=Rexembed(
                     title=news.bandsname()[index],
                     image=news.imagelink()[index],
-                    description= f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
+                    description=f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
                     colour='blue'
                 ).normal_embed())
                 await channel.send(news.youtube()[index])
@@ -124,7 +120,7 @@ async def getmusic():
                 break
 
         await channel.send(embed=Rexembed(title='Also dropping:',
-        description=f'{news.drooping()[0]}\n{news.drooping()[1]}\n{news.drooping()[2]}\n{news.drooping()[3]}\n{news.drooping()[4]}\n{news.drooping()[5]}', colour='blue').normal_embed())
+                                          description=f'{news.drooping()[0]}\n{news.drooping()[1]}\n{news.drooping()[2]}\n{news.drooping()[3]}\n{news.drooping()[4]}\n{news.drooping()[5]}', colour='blue').normal_embed())
         print('news done!')
         await channel.send('@everyone novidades da semana!')
 
@@ -148,9 +144,9 @@ async def weekcovid():
     if weekDay == 6 and timeController == '1:9':
 
         values = CovidData().graph()
-    
+
         if values:
-            #gen values
+            # gen values
             ratio = 5
             val1 = '.' * int(values[0] / ratio)
             val2 = '.' * int(values[1] / ratio)
@@ -171,10 +167,10 @@ async def weekcovid():
             Sex  {val7} {values[6]}
         '''
 
-            await channel.send(embed=Rexembed(title='Weekly Corona Virus Review', 
-                                          description=msg_description,
-                                          colour='Red', footer=f'Total {sum(values)}').normal_embed())
-            
+            await channel.send(embed=Rexembed(title='Weekly Corona Virus Review',
+                                              description=msg_description,
+                                              colour='Red', footer=f'Total {sum(values)}').normal_embed())
+
             print('run coronaGraph - data in discord')
             time.sleep(60)
 
@@ -185,7 +181,7 @@ async def version(ctx):
     await ctx.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
 
 
-#main commands
+# main commands
 
 
 @client.command()
@@ -200,18 +196,16 @@ async def size(ctx, *, c_arg):
        Ex: !size \\STORAGE\Creative\Projetos\SHOWROOM_PRIVE\CAMPANHA_2\FICHEIROS_FINAIS\ANDREIA\FOTOS, 1000
 
        ATENÇÃO: Depois do caminho usar a , e depois o valor para o tamanho pretendido
-    
+
     '''
     new_input = str(c_arg).split(',')
     path = new_input[0]
     size = int(new_input[1])
     await ctx.send(embed=Rexembed('Processing...', colour='Blue').normal_embed())
     try:
-     await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
+        await ctx.send(embed=Rexembed(f'{resize_img(path, size)} images successfully resized ', colour='blue').normal_embed())
     except:
         await ctx.send(embed=Rexembed('Hey, something go wrong!', colour='Red').normal_embed())
-
-
 
 
 @client.command()
@@ -221,11 +215,11 @@ async def rev(ctx, *, rev):
         . Nome
         . quantidade em stock
         . preço por metro
-       
+
        Argumento obrigatório -> Codigo de revestimento
-       
+
        Exemplo: !rev c1758 -> Zenith 606 ...
-       
+
        '''
     print(f'Run !rev with {rev} by {ctx.author}')
     rev = rev.strip().upper()
@@ -264,10 +258,9 @@ async def gama(ctx, *, rev):
                 await ctx.author.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
 
             await ctx.send(embed=Rexembed(title='Done!!', colour='green', description='Revestimentos enviados por MP! ;)').normal_embed())
-    
+
     except KeyError:
         await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
-
 
 
 @client.command()
@@ -349,11 +342,12 @@ async def cod(ctx, modelo):
     except KeyError:
         await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
+
 @client.command()
 async def fact(ctx):
     '''Return a norris fact!'''
     print(f'Run a fact by {ctx.author}')
-    await ctx.send(embed=Rexembed(title='Norris Fact:' ,description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/717759451343486996/images.jpg').normal_embed())
+    await ctx.send(embed=Rexembed(title='Norris Fact:', description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/717759451343486996/images.jpg').normal_embed())
 
 
 # fun stuff
