@@ -48,17 +48,6 @@ async def on_ready():
     print(f'O rex esta online!! At {time.ctime()}')
     print('='*80)
 
-    # channel_news = client.get_channel(669219347339673630)
-    # await channel_news.send(embed=Rexembed(
-    #   title=title_hf1,
-    #   description=descrição_htf1,
-    #   footer=footer_ht1,
-    #   thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/669229075088277517/updates-01-01.png',
-    #   colour='blue'
-    # ).normal_embed())
-
-
-# events and tasks
 
 @tasks.loop(hours=1)
 async def covid():

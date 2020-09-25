@@ -178,7 +178,7 @@ class Dict_tecidos:
 
         for n in range(self.sheet_tecidos.nrows):
             codigo = self.sheet_tecidos.cell_value(n, 2)
-            preço = self.sheet_tecidos.cell_value(n, 11)
+            preço = self.sheet_tecidos.cell_value(n, 12)
             dic_preço[codigo] = (preço)
 
         return dic_preço[self.rev]
@@ -190,7 +190,7 @@ class Dict_tecidos:
 
         for n in range(self.sheet_tecidos.nrows):
             codigo = self.sheet_tecidos.cell_value(n, 2)
-            metros = self.sheet_tecidos.cell_value(n, 16)
+            metros = self.sheet_tecidos.cell_value(n, 5)
             dic_metros[codigo] = (metros)
 
         return dic_metros[self.rev]
