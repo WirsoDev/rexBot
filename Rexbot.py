@@ -41,11 +41,11 @@ channels = {
 async def on_ready():
 
     # getmusic.start()
-    weekcovid.start()
-    covid.start()
+    # weekcovid.start()
+    # covid.start()
 
     print('='*80)
-    print(f'O rex esta online!! At {time.ctime()}')
+    print(f'RexBot is online! At {time.ctime()}')
     print('='*80)
 
 

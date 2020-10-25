@@ -14,8 +14,7 @@ class Metalinj:
 
         page = requests.get(self.url).text
         bspage = bs(page, 'html.parser')
-
-        newspage = bspage.find('h2', class_='zox-art-title')
+        newspage = bspage.find('section', class_='zox-art-wrap zoxrel')
 
         return newspage.a['href']
 
@@ -26,10 +25,10 @@ class Metalinj:
         page = requests.get(link).text
         bspage = bs(page, 'html.parser')
 
-        article_detail = bspage.find(
-            'div', class_='article-detail thearticlecontent')
+        # article_detail = bspage.find(
+        #   'div', class_='article-detail thearticlecontent')
 
-        return article_detail
+        return bspage
 
     def bandsname(self):
         '''Extract all bands names from page - returns a list'''
