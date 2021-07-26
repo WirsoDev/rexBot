@@ -25,7 +25,7 @@ from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_
 
 
 # init cliente
-client = commands.Bot(command_prefix='!')
+client = commands.Bot(command_prefix=['.', '!'])
 
 
 # channels
@@ -199,36 +199,27 @@ async def size(ctx, *, c_arg):
 
 @client.command()
 async def rev(ctx, *, rev):
-    '''Procura informações de revestimentos aquinos.
-
-        . Nome
-        . quantidade em stock
-        . preço por metro
-
-       Argumento obrigatório -> Codigo de revestimento
-
-       Exemplo: !rev c1758 -> Zenith 606 ...
-
-       '''
-    print(f'Run !rev with {rev} by {ctx.author}')
-    rev = rev.strip().upper()
-    try:
-        tecido = Dict_tecidos(rev)
-        if tecido.descrição() == '':
-            if tecido.preço() == 0:
-                await ctx.send(embed=Rexembed(dbtecidos[rev], 'Sem stock - € não disponivel', 'green').normal_embed())
+    print(f'Run rev with {rev} by {ctx.author}')
+    listItems = rev.split(' ')
+    for item in listItems:
+        rev = item.strip().upper()
+        try:
+            tecido = Dict_tecidos(rev)
+            if tecido.descrição() == '':
+                if tecido.preço() == 0:
+                    await ctx.send(embed=Rexembed(dbtecidos[rev], 'Sem stock - € não disponivel', 'green').normal_embed())
+                else:
+                    await ctx.send(embed=Rexembed(dbtecidos[rev], f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
             else:
-                await ctx.send(embed=Rexembed(dbtecidos[rev], f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
-        else:
-            if tecido.preço() == 0:
-                await ctx.send(embed=Rexembed(tecido.descrição(), 'Sem stock - € não disponivel', 'green').normal_embed())
-            else:
-                await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
+                if tecido.preço() == 0:
+                    await ctx.send(embed=Rexembed(tecido.descrição(), 'Sem stock - € não disponivel', 'green').normal_embed())
+                else:
+                    await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
 
-    except KeyError:
-        await ctx.send(embed=Rexembed('Codigo não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
+        except KeyError:
+            await ctx.send(embed=Rexembed('Codigo não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
 
-
+    
 @client.command()
 async def gama(ctx, *, rev):
     '''Lista todos os revestimentos da gama. 
