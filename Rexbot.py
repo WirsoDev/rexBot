@@ -40,8 +40,6 @@ channels = {
 @client.event
 async def on_ready():
 
-    # getmusic.start()
-    weekcovid.start()
     covid.start()
 
     print('='*80)
@@ -76,98 +74,6 @@ async def covid():
         print('Covid controlor update! data on discord')
     else:
         print('Run covid - no new data')
-
-
-@tasks.loop(hours=1)
-async def getmusic():
-
-    channel = client.get_channel(channels['music'])
-    news = Metalinj()
-    controller = news.controller()
-
-    if controller == False:
-
-        print('Run get music - news on discord')
-        count = len(news.bandsname())
-        index = 0
-        index_2 = 0
-
-        while count >= 0:
-            try:
-                await channel.send(embed=Rexembed(
-                    title=news.bandsname()[index],
-                    image=news.imagelink()[index],
-                    description=f'{news.description()[index_2]}\n  \n{news.description()[index_2 + 1]}',
-                    colour='blue'
-                ).normal_embed())
-                await channel.send(news.youtube()[index])
-                index += 1
-                index_2 += 3
-                count -= 1
-            except IndexError:
-                pass
-                break
-
-        await channel.send(embed=Rexembed(title='Also dropping:',
-                                          description=f'{news.drooping()[0]}\n{news.drooping()[1]}\n{news.drooping()[2]}\n{news.drooping()[3]}\n{news.drooping()[4]}\n{news.drooping()[5]}', colour='blue').normal_embed())
-        print('news done!')
-        await channel.send('@everyone novidades da semana!')
-
-        # overwrite controller file
-        write = open(r'external_api/logs/metalinj_rsscontroler.txt', 'w')
-        write.write(news.bandsname()[0])
-        write.close
-        print(f'The controller was update! value = {news.bandsname()[0]}')
-
-    else:
-        print('Run getmusic - nothing to post')
-        pass
-
-
-@tasks.loop(seconds=60.0)
-async def weekcovid():
-    channel = client.get_channel(channels['zezign'])
-    weekDay = weekday()
-    now = datetime.now()
-    timeController = f'{now.hour}:{now.minute}'
-    if weekDay == 6 and timeController == '1:9':
-
-        values = CovidData().graph()
-
-        if values:
-            # gen values
-            ratio = 5
-            val1 = '.' * int(values[0] / ratio)
-            val2 = '.' * int(values[1] / ratio)
-            val3 = '.' * int(values[2] / ratio)
-            val4 = '.' * int(values[3] / ratio)
-            val5 = '.' * int(values[4] / ratio)
-            val6 = '.' * int(values[5] / ratio)
-            val7 = '.' * int(values[6] / ratio)
-
-            msg_description = f'''
-            ...
-            Sab  {val1} {values[0]}
-            Dom  {val2} {values[1]}
-            Seg  {val3} {values[2]}
-            Ter  {val4} {values[3]}
-            Qua  {val5} {values[4]}
-            Qui  {val6} {values[5]}
-            Sex  {val7} {values[6]}
-        '''
-
-            await channel.send(embed=Rexembed(title='Weekly Corona Virus Review',
-                                              description=msg_description,
-                                              colour='Red', footer=f'Total {sum(values)}').normal_embed())
-
-            print('run coronaGraph - data in discord')
-            time.sleep(60)
-
-
-@client.command()
-async def version(ctx):
-    '''Versão atual do Rex'''
-    await ctx.send(embed=Rexembed(title_main, descrição_main, colour='blue').normal_embed())
 
 
 # main commands
