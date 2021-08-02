@@ -207,14 +207,14 @@ async def rev(ctx, *, rev):
             tecido = Dict_tecidos(rev)
             if tecido.descrição() == '':
                 if tecido.preço() == 0:
-                    await ctx.send(embed=Rexembed(dbtecidos[rev], 'Sem stock - € não disponivel', 'green').normal_embed())
+                    await ctx.send(embed=Rexembed(dbtecidos[rev], f'{rev} | Sem stock - € não disponivel', 'green').normal_embed())
                 else:
-                    await ctx.send(embed=Rexembed(dbtecidos[rev], f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
+                    await ctx.send(embed=Rexembed(dbtecidos[rev], f'{rev} | {tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
             else:
                 if tecido.preço() == 0:
-                    await ctx.send(embed=Rexembed(tecido.descrição(), 'Sem stock - € não disponivel', 'green').normal_embed())
+                    await ctx.send(embed=Rexembed(tecido.descrição(), f'{rev} | Sem stock - € não disponivel', 'green').normal_embed())
                 else:
-                    await ctx.send(embed=Rexembed(tecido.descrição(), f'{tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
+                    await ctx.send(embed=Rexembed(tecido.descrição(), f'{rev} | {tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
 
         except KeyError:
             await ctx.send(embed=Rexembed('Codigo não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
