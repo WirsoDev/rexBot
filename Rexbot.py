@@ -18,10 +18,10 @@ from tokan import tokan
 from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
-from external_api.covid import CovidData
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts, weekday
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
+from prognews import get_last_url, prog_controller
 
 
 # init cliente
@@ -39,41 +39,26 @@ channels = {
 
 @client.event
 async def on_ready():
-
-    covid.start()
-
+    prognews.start()
     print('='*80)
-    print(f'O rex esta online!! At {time.ctime()}')
+    print(f'Rex Online!! At {time.ctime()}')
     print('='*80)
 
 
-@tasks.loop(hours=1)
-async def covid():
-    '''Retorna o estado da evolução do Corona Virus
-    em portugal
-    '''
-    data = CovidData().data()
-    controller = CovidData().controler()
-    channel = client.get_channel(channels['zezign'])
+@tasks.loop(minutes=10)
+async def prognews():
+
+    data = get_last_url()
+    controller = prog_controller()
+    channel = client.get_channel(channels['music'])
+    
     if controller == False:
-        await channel.send(embed=Rexembed(
-            title=f'Corona Virus Portugal',
-            description=f'''
-            **Novos casos** - {data["confirmados_novos"]}
-            **Total de casos** - {data["confirmados"]}
-            **Total de obitos** - {data["obitos"]}
-            ''',
-            footer=f'dados da dgs | {data["data"]}',
-            colour='Red'
-        ).normal_embed())
-
-        # update controller file
-        file = open(r'external_api/logs/covid.txt', 'w')
-        file.write(data['data'])
-        file.close()
-        print('Covid controlor update! data on discord')
-    else:
-        print('Run covid - no new data')
+        await channel.send(data)
+        print('Run ProgNews - Prog news on discord')
+        txt = open('external_api/logs/prognews_controller.txt', 'w')
+        txt.write(data)
+        txt.close()
+    return 
 
 
 # main commands
