@@ -19,13 +19,17 @@ from db.database import aquinosusers, dbtecidos, accepthours_metalapi
 from external_api.names import Getnames
 from external_api.music import Metalinj
 from functions import rexgifs, weeknum, aqpassgen, Dict_tecidos, Dict_modelos, resize_img, facts, weekday
+from whatermark import apply_water_mark
+#from remove_bg import remove_bg
 from embed import Rexembed
 from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_htf1, footer_ht1
 from prognews import get_last_url, prog_controller
+import sys
+import argparse
 
 
 # init cliente
-client = commands.Bot(command_prefix=['.', '!'])
+client = commands.Bot(command_prefix=['.', '!'], intents=(discord.Intents.all()))
 
 
 # channels
@@ -39,11 +43,12 @@ channels = {
 
 @client.event
 async def on_ready():
-    prognews.start()
+    #prognews.start()
     print('='*80)
     print(f'Rex Online!! At {time.ctime()}')
     print('='*80)
 
+    
 
 @tasks.loop(minutes=10)
 async def prognews():
@@ -59,7 +64,6 @@ async def prognews():
         txt.write(data)
         txt.close()
     return 
-
 
 # main commands
 
@@ -108,7 +112,7 @@ async def rev(ctx, *, rev):
                     await ctx.send(embed=Rexembed(tecido.descrição(), f'{rev} | {tecido.metros()} em stock - {tecido.preço()}€', 'green').normal_embed())
 
         except KeyError:
-            await ctx.send(embed=Rexembed('Codigo não é valido ou não foi encontrado na base de dados :/', colour='red').normal_embed())
+            await ctx.send(embed=Rexembed('Go fish!    :fishing_pole_and_fish: ', colour='red').normal_embed())
 
     
 @client.command()
@@ -122,16 +126,16 @@ async def gama(ctx, *, rev):
     print(f'Run !gama with {rev} by {ctx.author}')
     try:
         revestimento = Dict_tecidos(rev)
-        if len(revestimento.gamas()) == 0:
-            await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
+        if len(revestimento.gamas()[0]) == 0:
+            await ctx.send(embed=Rexembed('Go fish!   :fishing_pole_and_fish: ', colour='red').normal_embed())
         else:
-            for itens in revestimento.gamas():
-                await ctx.author.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
-
-            await ctx.send(embed=Rexembed(title='Done!!', colour='green', description='Revestimentos enviados por MP! ;)').normal_embed())
+            #for itens in revestimento.gamas():
+            #    await ctx.author.send(embed=Rexembed(description=itens, colour='blue').normal_embed())
+            await ctx.send(embed=Rexembed(title=f'{rev.upper()} - {revestimento.gamas()[1]} colors' , description=revestimento.gamas()[0], colour='blue').normal_embed())
+            #await ctx.send(embed=Rexembed(title='Done!!', colour='green', description='Revestimentos enviados por MP! ;)').normal_embed())
 
     except KeyError:
-        await ctx.send(embed=Rexembed('Revestimento não encontrado! :/', colour='red').normal_embed())
+        await ctx.send(embed=Rexembed('Go fish!    :fishing_pole_and_fish: ', colour='red').normal_embed())
 
 
 @client.command()
@@ -142,8 +146,8 @@ async def week(ctx):
 
        Exemplo: !week 
     '''
-    await ctx.send(embed=Rexembed(f'Estás na semana {weeknum()}', colour='blue').normal_embed())
-
+    await ctx.send(embed=Rexembed(f'Estás na semana {weeknum()}. Seu burro!!', colour='blue').normal_embed())
+    await ctx.send('https://tenor.com/view/shake-my-head-james-dutton-tim-mcgraw-1883-smh-gif-24993082')
 
 @client.command()
 async def genpass(ctx, *, givenname=''):
@@ -168,18 +172,18 @@ async def genpass(ctx, *, givenname=''):
     await ctx.send(embed=Rexembed(f'A tua pass foi gerada e enviada por MP!', colour='blue').normal_embed())
 
 
-@client.command()
-async def nomes(ctx, *, types=''):
+#@client.command()
+#async def nomes(ctx, *, types=''):
     '''Cria uma lista de 5 nomes random.
 
     Não tem argumentos obrigatórios
 
     Exemplo: !nomes -> Benji, Caiden, Paul, ...
     '''
-    listnames = Getnames(types)
-    names = listnames.getnames()[:5]
+#    listnames = Getnames(types)
+#    names = listnames.getnames()[:5]
 
-    await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
+#    await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
 
 
 @client.command()
@@ -218,10 +222,55 @@ async def cod(ctx, modelo):
 async def fact(ctx):
     '''Return a norris fact!'''
     print(f'Run a fact by {ctx.author}')
-    await ctx.send(embed=Rexembed(title='Norris Fact:', description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/717759451343486996/images.jpg').normal_embed())
+    await ctx.send(embed=Rexembed(title='Norris Fact:', description=facts(), colour='green', thumbnail='https://cdn.discordapp.com/attachments/519881712046702593/1213175072525652038/image.png?ex=65f48454&is=65e20f54&hm=a82d96537fff0c58ef2f1293b86e227da465f8008c867a50fff2c0be7cbac250&').normal_embed())
 
+@client.command()
+async def wm(ctx, *, args):
 
+    args = args.split(',')
+    path = False
+    text = False
+    resize = True
+
+    if args[0]: 
+        path = args[0] #path
+        try:
+            if args[1]: text = args[1]
+        except IndexError:
+            pass
+        try:
+            if args[2]: resize = False
+        except IndexError:
+            pass
+
+        if path: print(path)
+        if text: print(text)
+        if resize: print(resize)
+        await ctx.send(embed=Rexembed(title='Running', description="Working...", colour='green').normal_embed())
+        func_result = apply_water_mark()
+
+        await ctx.send(embed=Rexembed(title='Teste', description=args[0], colour='green').normal_embed())
+    else:
+        await ctx.send(embed=Rexembed(title='Error', description="Missing some args!", colour='red').normal_embed())
+
+'''
+@client.command()
+async def rembg(ctx, c_arg):
+    path = c_arg
+    
+    await ctx.send(embed=Rexembed(title='Finding images...', 
+                                  description='Depending on the size of the images, this may take a while...',
+                                  colour='Blue').normal_embed())
+    try:
+        await ctx.send(embed=Rexembed(f'Removed background from {remove_bg(path)} images', colour='blue').normal_embed())
+    except:
+        await ctx.send(embed=Rexembed(title='Hey, something go wrong!', 
+                                      description='Remember that this command works on internal network paths only', 
+                                      colour='Red').normal_embed())
+'''
 # fun stuff
+
+
 
 @client.event
 async def on_message(message):

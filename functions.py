@@ -209,6 +209,7 @@ class Dict_tecidos:
 
         lista_01 = []
         Lista_02 = []
+        parsed_ = ''
 
         for n in range(self.sheet_tecidos.nrows):
             descrição = self.sheet_tecidos.cell_value(n, 3)
@@ -222,8 +223,12 @@ class Dict_tecidos:
             if self.rev in descrição:
                 Lista_02.append(f'{descrição} - {codigo}')
 
+        #create set
+        set_ = list(set(lista_01 + Lista_02))
+        for i in set_:
+            parsed_ = parsed_ + f'{i}\n'
 
-        return list(set(lista_01 + Lista_02))
+        return [parsed_, len(set_)]
 
 
         
