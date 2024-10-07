@@ -26,6 +26,10 @@ from docs.news_v1_2 import title_main, descrição_main, title_hf1, descrição_
 from prognews import get_last_url, prog_controller
 import sys
 import argparse
+from feets import FEETS
+import os
+from PIL import Image
+import fitz
 
 
 # init cliente
@@ -172,18 +176,72 @@ async def genpass(ctx, *, givenname=''):
     await ctx.send(embed=Rexembed(f'A tua pass foi gerada e enviada por MP!', colour='blue').normal_embed())
 
 
-#@client.command()
-#async def nomes(ctx, *, types=''):
-    '''Cria uma lista de 5 nomes random.
 
-    Não tem argumentos obrigatórios
+@client.command()
+async def feet(ctx, *, filter_):
+    print(f'feets: filter {filter_} by {ctx.author}')
 
-    Exemplo: !nomes -> Benji, Caiden, Paul, ...
-    '''
-#    listnames = Getnames(types)
-#    names = listnames.getnames()[:5]
+    accepted_filters = ['-c', '-m', '-ma']
+    if filter_.split(' ')[0] not in accepted_filters:
+        await ctx.send(embed=Rexembed('😒', 'Filters: -c / -m / -a / -ma', colour='red').normal_embed())
+        return
 
-#    await ctx.send(embed=Rexembed(description=f'{names[0]}\n{names[1]}\n{names[2]}\n{names[3]}\n{names[4]}', colour='green').normal_embed())
+    conn = FEETS()
+
+    # Filter data
+    if filter_.split(' ')[0] == '-c':
+        code = filter_.split(' ')[1]
+        data = conn.filter_data(code=code)
+
+        if len(data) == 1:
+            pdf_file_path = data[0]['pdf_file']
+            pdf_document = fitz.open(pdf_file_path)
+            first_page = pdf_document.load_page(0)
+            pix = first_page.get_pixmap()
+            image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+            image_path = 'output_image.jpg'
+            image.save(image_path, 'JPEG')
+            await ctx.send(
+                embed=Rexembed(f"Material: {data[0]['material']} | Altura: {data[0]['altura']}mm", f'Pé {data[0]["codigo"]}', 'green').normal_embed()
+            )
+            await ctx.send(file=discord.File(image_path))
+            os.remove(image_path)
+    
+    if filter_.split(' ')[0] == '-a':
+        altura = int(filter_.split(' ')[1])
+        data = conn.filter_data(altura=altura)
+        if data:
+            lines = ''
+            for l in data:
+                lines = lines + f'Pé {l['codigo']} | {l['material']}\n'
+
+            await ctx.send(embed=Rexembed(title=f'{altura}mm feets:' , description=lines, colour='blue').normal_embed())
+    
+    if filter_.split(' ')[0] == '-m':
+        material = (filter_.split(' ')[1])
+        data = conn.filter_data(material=material)
+        if data:
+            lines = ''
+            for l in data:
+                lines = lines + f'Pé {l['codigo']} | {l['altura']}\n'
+
+            await ctx.send(embed=Rexembed(title=f'Feets in {material}' , description=lines, colour='blue').normal_embed())
+
+    if filter_.split(' ')[0] == '-ma':
+        material = (filter_.split(' ')[1])
+        altura = int((filter_.split(' ')[2]))
+        data = conn.filter_data(material=material, altura=altura)
+        if data:
+            lines = ''
+            for l in data:
+                lines = lines + f'Pé {l['codigo']}\n'
+
+            await ctx.send(embed=Rexembed(title=f'Feets in {material} and {altura}mm' , description=lines, colour='blue').normal_embed())
+
+
+    return
+    
+
 
 
 @client.command()
@@ -216,6 +274,7 @@ async def cod(ctx, modelo):
         await ctx.send(embed=Rexembed(f'{codigo.codigo()}', colour='green').normal_embed())
     except KeyError:
         await ctx.send(embed=Rexembed('Nome do modelo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
+
 
 
 @client.command()
