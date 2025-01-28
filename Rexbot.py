@@ -12,7 +12,7 @@ from discord.ext import commands, tasks
 import discord
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 import xlrd
 from tokan import tokan
 from db.database import aquinosusers, dbtecidos, accepthours_metalapi
@@ -30,11 +30,17 @@ from feets import FEETS
 import os
 from PIL import Image
 import fitz
+from llm import Rexllm
+import threading
+from flask import Flask, request, jsonify
+import asyncio
+from functools import partial
+
+app = Flask(__name__)
 
 
 # init cliente
 client = commands.Bot(command_prefix=['.', '!'], intents=(discord.Intents.all()))
-
 
 # channels
 channels = {
@@ -42,7 +48,98 @@ channels = {
     'rex': 585752207501033472,
     'rexnews': 669219347339673630,
     'zezign': 655087818040672266,
+    'DRS': 1327230311041335357,
 }
+
+
+def excel_number_to_date(excel_number):
+    # Excel's date system starts from December 30, 1899
+    excel_start = datetime(1899, 12, 30)
+    
+    # Add the number of days to the start date
+    date = excel_start + timedelta(days=excel_number)
+    
+    # Format the date as dd/mm/yyyy
+    return date.strftime('%d/%m/%Y')
+
+
+#api routes
+@app.route('/', methods=['GET'])
+def mainroute():
+    return jsonify({'status': 'OK'})
+
+
+# Create a function to send Discord message asynchronously
+async def send_discord_message(channel, embed):
+    await channel.send(embed=embed)
+
+# Modified Flask route
+@app.route('/newtask', methods=['POST'])
+def newtask():
+    data = request.get_json()
+
+    if data:
+
+        #convert deadline to datetime object (if recived 45671/time stamp else dont convert)
+        if type(data['deadline']) == int or type(data['deadline']) == float:
+            data['deadline'] = excel_number_to_date(data['deadline'])
+
+        if isinstance(data['modelCode'], (int, float)):
+            modelCode = int(data['modelCode'])
+        else:
+            modelCode = None
+
+        try:
+            if data['issue_id']:
+                add_jira = 'and added to Jira!'
+                link = f'https://aquinosdev.atlassian.net/jira/core/projects/DM/board?selectedIssue={data["issue_id"]}'
+                thumbnail='https://cdn.discordapp.com/attachments/585752207501033472/1333721874730975294/stsmall845x845-pad1000x1000f8f8f8.jpg?ex=6799ecca&is=67989b4a&hm=d5f438cca2e6621104b638949f7f86817709ef913372a3a12423c3c801e9cbf9&'
+            else:
+                add_jira = ''
+                link = ''
+                thumbnail=''
+        except KeyError:
+            add_jira = ''
+            link = ''
+            thumbnail=''
+
+
+        msg = f'''
+        Code: {modelCode}
+        Model: {data['modelName'] or None}
+        Element: {data['tipologia'] or None}
+        Request: {data['tiposPedido']}
+        {link}
+        '''
+        # Log data
+        print(f'Received data: {data}')
+
+        # Log channel retrieval
+        channel = client.get_channel(channels['DRS'])
+        print(f'Channel: {channel}')
+
+        if channel:
+            # Create the embed
+            embed = Rexembed(
+                title=f'DRS {data["drsNumber"]} created {add_jira}',
+                description=msg,
+                colour='blue',
+                thumbnail=thumbnail
+            ).normal_embed()
+            
+            # Schedule the coroutine to run
+            asyncio.run_coroutine_threadsafe(
+                send_discord_message(channel, embed),
+                client.loop
+            )
+            print('Message sent task created!')
+        else:
+            print('Channel not found or bot does not have access.')
+
+        return jsonify(data)
+    else:
+        print('Invalid data received.')
+        return jsonify({'status': 'error'}), 400
 
 
 @client.event
@@ -259,6 +356,31 @@ async def modelo(ctx, *, codigo):
     except KeyError:
         await ctx.send(embed=Rexembed('Codigo não é valido ou ainda não esta na base de dados! :/', colour='red').normal_embed())
 
+@client.command()
+async def hey(ctx, *prompt):
+    prompt = " ".join(prompt)
+
+    print(f'Run !hey with {prompt} by {ctx.author}')
+    try:
+        model = Rexllm()
+        response = model.makeresponse(prompt, ctx.author)
+        await ctx.send(response)
+    except KeyError:
+        await ctx.send(embed=Rexembed('Probs', colour='red').normal_embed())
+
+
+@client.command()
+async def imagine(ctx, *prompt):
+    prompt = " ".join(prompt)
+
+    print(f'Run imagine with {prompt} by {ctx.author}')
+    try:
+        model = Rexllm()
+        response = model.makeresponse(prompt, ctx.author, noRex=True)
+        await ctx.send(response)
+    except KeyError:
+        await ctx.send(embed=Rexembed('Probs', colour='red').normal_embed())
+
 
 @client.command()
 async def cod(ctx, modelo):
@@ -342,5 +464,13 @@ async def on_message(message):
     await client.process_commands(message)
 
 
+def run_flask():
+    app.run(port=8080, debug=True, use_reloader=False)
+
+# Run Flask in a separate thread
+flask_thread = threading.Thread(target=run_flask, daemon=True)
+flask_thread.start()
+
 if __name__ == '__main__':
     client.run(tokan)
+    
